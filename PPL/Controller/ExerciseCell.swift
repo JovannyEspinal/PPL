@@ -70,10 +70,10 @@ class ExerciseCell: UITableViewCell {
             set = updatedSet
             
             if set.numberOfRepsCompleted < 0 {
-                UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-                
                 let updatedSet = (set |> ExerciseSet.numberOfRepsCompletedLens *~ 0) |> ExerciseSet.firstAttemptLens *~ true
+                
                 set = updatedSet
+                
                 sender.initialButtonState()
             } else {
                 sender.ongoingButtonState(with: set)
@@ -86,7 +86,7 @@ class ExerciseCell: UITableViewCell {
         
         WorkoutManager.manager.currentWorkout?.exercises[index].sets[sender.tag] = set
         
-        NotificationCenter.default.post(name: Notification.Name("SetButtonTapped"), object: self, userInfo: ["index": index])
+        NotificationCenter.default.post(name: Notification.Name("SetButtonTapped"), object: self, userInfo: ["index": index, "numberOfRepsCompleted": set.numberOfRepsCompleted, "set": set])
     }
 }
 

@@ -79,7 +79,6 @@ class WeightChangeViewController: UIViewController {
         weightLabel.text = "\(updatedWeight)"
         
         if let exerciseName = WorkoutManager.manager.currentWorkout?.exercises[index].name, barbellExercises.contains(exerciseName) {
-            
             navigationBar.topItem?.title = updatedWeight <= 45.0 ? "Lift The Empty Bar" : "Add \((updatedWeight-45.0)/2)lbs/side"
         } else {
             navigationBar.topItem?.title = "Change Exercise Weight"

@@ -75,7 +75,15 @@ class LoggingViewController: UIViewController {
     }
     
     func startTimer(sender: Notification) {
-        guard let index = sender.userInfo?["index"] as? Int else { fatalError() }
+        guard let index = sender.userInfo?["index"] as? Int,
+            let set = sender.userInfo?["set"] as? ExerciseSet,
+            let reps = sender.userInfo?["numberOfRepsCompleted"] as? Int else { return }
+        
+        if reps == 0 && set.firstAttempt {
+            UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+            closeTimer()
+            return
+        }
         
         let delegate = UIApplication.shared.delegate as? AppDelegate
         
@@ -89,6 +97,7 @@ class LoggingViewController: UIViewController {
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(incrementCount), userInfo: nil, repeats: true)
         
         let date: Date
+        
         if index == 0 {
             date = Date(timeIntervalSinceNow: 180)
             timerDescriptionLabel.text = "Rest for 3 min. If you need more time, rest for 5 min."
