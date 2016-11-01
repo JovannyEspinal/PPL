@@ -25,3 +25,5 @@ After getting permission from the creator of this routine, I've decided to go ah
 When it comes to working out, aside from consistency and keeping track of your diet (that's a whole different app idea), keeping track of what you've done in the gym is key. Some people like to keep it old school by bringing a notebook and pen to the gym, some have complicated apps that have all this extra fluff that isn't conducive to your workout, and some even use the notes app and a timer (ew!). The PPL App will aim to do the absolutely to track your workouts and do them well.
 
 - **Simple Workout Logging Interface & Functionality** - The most important part of this app, or any workout app, should be logging your workouts. When I'm in the gym the last thing I want to do is fumble through screens trying to log my workout. It's key to make this process as simple as possible. Influenced by StrongLifts, as soon as you select the number of reps for your set the rest countdown will start and then go off when it's time for another set.
+
+![Alt text](http://i.imgur.com/5X3rDlN.png "Workout Home Screen") ![Alt text](http://i.imgur.com/Tfr1XVb.png "Weight Change Screen")
