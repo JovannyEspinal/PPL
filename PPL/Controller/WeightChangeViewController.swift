@@ -15,6 +15,13 @@ protocol WeightChangedViewControllerDelegate {
 class WeightChangeViewController: UIViewController {
     @IBOutlet weak var weightLabel: UILabel!
     @IBOutlet weak var navigationBar: UINavigationBar!
+    @IBOutlet weak var fortyFivePlateLabel: UILabel!
+    @IBOutlet weak var thirtyFivePlateLabel: UILabel!
+    @IBOutlet weak var twentyFivePlateLabel: UILabel!
+    @IBOutlet weak var tenPlateLabel: UILabel!
+    @IBOutlet weak var fivePlateLabel: UILabel!
+    @IBOutlet weak var twoAndAHalfPlateLabel: UILabel!
+    @IBOutlet weak var barbellLabel: UILabel!
     var delegate: WeightChangedViewControllerDelegate?
     var index: Int! {
         didSet {
@@ -34,6 +41,7 @@ class WeightChangeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateLabel()
+        calculatePlates()
     }
     
     
@@ -44,6 +52,7 @@ class WeightChangeViewController: UIViewController {
         }
         
         updateLabel()
+        calculatePlates()
     }
     
     @IBAction func decrementWeight() {
@@ -57,6 +66,7 @@ class WeightChangeViewController: UIViewController {
         }
         
         updateLabel()
+        calculatePlates()
     }
     
     @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
@@ -65,7 +75,7 @@ class WeightChangeViewController: UIViewController {
         if let exercise = WorkoutManager.manager.currentWorkout?.exercises[index], let updatedWeight = weight {
             let updatedExercise = exercise |> Exercise.weightLens *~ updatedWeight
             
-           WorkoutManager.manager.currentWorkout?.exercises[index] = updatedExercise
+            WorkoutManager.manager.currentWorkout?.exercises[index] = updatedExercise
         }
     }
     
@@ -84,4 +94,139 @@ class WeightChangeViewController: UIViewController {
             navigationBar.topItem?.title = "Change Exercise Weight"
         }
     }
+    
+    func calculatePlates() {
+        var dict = [2.5: 0,
+                    5.0: 0,
+                    10.0: 0,
+                    25.0: 0,
+                    35.0: 0,
+                    45.0: 0]
+        
+        guard let updatedWeight = weight else { return }
+        
+        var adjustingWeight = (updatedWeight-45.0)/2
+        
+        while (adjustingWeight - 45.0) >= 0 {
+            adjustingWeight -= 45.0
+            
+            if let value = dict[45.0] {
+                dict.updateValue(value + 1, forKey: 45.0)
+            }
+        }
+        
+        while (adjustingWeight - 35.0) >= 0 {
+            adjustingWeight -= 35.0
+            if let value = dict[35.0] {
+                dict.updateValue(value + 1, forKey: 35.0)
+            }
+        }
+        
+        while (adjustingWeight - 25.0) >= 0 {
+            adjustingWeight -= 25.0
+            if let value = dict[25.0] {
+                dict.updateValue(value + 1, forKey: 25.0)
+            }
+        }
+        
+        while (adjustingWeight - 10.0) >= 0 {
+            adjustingWeight -= 10.0
+            if let value = dict[10.0] {
+                dict.updateValue(value + 1, forKey: 10.0)
+            }
+        }
+        
+        while (adjustingWeight - 5.0) >= 0 {
+            adjustingWeight -= 5.0
+            if let value = dict[5.0] {
+                dict.updateValue(value + 1, forKey: 5.0)
+            }
+        }
+        
+        while (adjustingWeight - 2.5) >= 0 {
+            adjustingWeight -= 2.5
+            if let value = dict[2.5] {
+                dict.updateValue(value + 1, forKey: 2.5)
+            }
+        }
+        
+        updatePlateLabels(with: dict)
+    }
+    
+    func updatePlateLabels(with plates: [Double: Int]) {
+        fortyFivePlateLabel.isHidden = false
+        thirtyFivePlateLabel.isHidden = false
+        twentyFivePlateLabel.isHidden = false
+        tenPlateLabel.isHidden = false
+        fivePlateLabel.isHidden = false
+        twoAndAHalfPlateLabel.isHidden = false
+        
+        if let fortyFivePlateCount = plates[45.0] {
+            if fortyFivePlateCount == 0 {
+                fortyFivePlateLabel.isHidden = true
+            } else {
+                fortyFivePlateLabel.text = "\(fortyFivePlateCount) x 45lb"
+            }
+        }
+        
+        if let thirtyFivePlateCount = plates[35.0] {
+            if thirtyFivePlateCount == 0 {
+                thirtyFivePlateLabel.isHidden = true
+            } else {
+                thirtyFivePlateLabel.text = "\(thirtyFivePlateCount) x 35lb"
+            }
+        }
+        
+        if let twentyFivePlateCount = plates[25.0] {
+            if twentyFivePlateCount == 0 {
+                twentyFivePlateLabel.isHidden = true
+            } else {
+                twentyFivePlateLabel.text = "\(twentyFivePlateCount) x 25lb"
+            }
+        }
+        
+        if let tenPlateCount = plates[10.0] {
+            if tenPlateCount == 0 {
+                tenPlateLabel.isHidden = true
+            } else {
+                tenPlateLabel.text = "\(tenPlateCount) x 10lb"
+            }
+        }
+        
+        if let fivePlateCount = plates[5.0] {
+            if fivePlateCount == 0 {
+                fivePlateLabel.isHidden = true
+            } else {
+                fivePlateLabel.text = "\(fivePlateCount) x 5lb"
+            }
+        }
+        
+        if let twoAndAHalfPlateCount = plates[2.5] {
+            if twoAndAHalfPlateCount == 0 {
+                twoAndAHalfPlateLabel.isHidden = true
+            } else {
+                twoAndAHalfPlateLabel.text = "\(twoAndAHalfPlateCount) x 2.5lb"
+            }
+        }
+        
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -62,6 +62,7 @@ class LoggingViewController: UIViewController {
         alertController.addAction(saveAction)
         
         present(alertController, animated: true)
+
         
     }
     
