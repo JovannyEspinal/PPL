@@ -44,13 +44,16 @@ class WorkoutListDataProvider: NSObject, UITableViewDataSource, UITableViewDeleg
         
         guard let section = Section(rawValue: indexPath.section) else { fatalError() }
         
+        
         let workout: Workout
         
         switch section {
         case .nextSession:
             workout = currentWorkout
+            cell.dateLabel.isHidden = true
         case .pastSessions:
             workout = workoutManager.workout(atIndex: indexPath.row)!
+            cell.isUserInteractionEnabled = false
         }
         
         cell.configCell(with: workout)
@@ -75,12 +78,20 @@ class WorkoutListDataProvider: NSObject, UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         if indexPath.section == 0 {
             NotificationCenter.default.post(name: Notification.Name("CurrentSessionTapped"), object: nil)
-            
         }
     }
+    
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        if indexPath.section == 1 { return nil }
+        
+        return indexPath
+    }
+    
+    
+    
+    
     
     
 }

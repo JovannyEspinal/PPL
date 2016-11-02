@@ -28,9 +28,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let pastWorkouts = UserDefaults.standard.object(forKey: "PastWorkouts") as? [String:Any] {
             let workouts = WorkoutManager.manager.parse(json: pastWorkouts)
             WorkoutManager.manager.pastWorkouts = workouts
-        } else {
-            WorkoutManager.manager.currentWorkout = WorkoutManager.manager.createWorkout()
         }
+        
+        WorkoutManager.manager.currentWorkout = WorkoutManager.manager.createWorkout()
+        
         
         let dataProvider = WorkoutListDataProvider()
         workoutController.dataProvider = dataProvider
@@ -68,19 +69,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
-    func scheduleNotification(at date: Date){
-        let calendar = Calendar(identifier: .gregorian)
-        let components = calendar.dateComponents(in: .current, from: date)
-        let newComponents = DateComponents(calendar: calendar, timeZone: .current, month: components.month, day: components.day, hour: components.hour, minute: components.minute)
-        
-        let trigger = UNCalendarNotificationTrigger(dateMatching: newComponents, repeats: false)
+    func scheduleNotification(after seconds: TimeInterval){
+        let timeIntervalTrigger = UNTimeIntervalNotificationTrigger(timeInterval: seconds, repeats: false)
         
         let content = UNMutableNotificationContent()
         content.title = "Time's up!"
         content.body = "Start your next set."
         content.sound = UNNotificationSound.default()
         
-        let request = UNNotificationRequest(identifier: "textNotification", content: content, trigger: trigger)
+        let request = UNNotificationRequest(identifier: "textNotification", content: content, trigger: timeIntervalTrigger)
         
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         UNUserNotificationCenter.current().add(request) {(error) in

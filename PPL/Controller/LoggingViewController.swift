@@ -42,7 +42,7 @@ class LoggingViewController: UIViewController {
         let alertController = UIAlertController(title: "Save Workout", message: "Are you finished with your workout?", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         let saveAction = UIAlertAction(title: "Save", style: .default) { [unowned self] _ in
-            WorkoutManager.manager.add(WorkoutManager.manager.currentWorkout!)
+            WorkoutManager.manager.add(WorkoutManager.manager.currentWorkout! |> Workout.dateLens *~ Date())
             
             let json = WorkoutManager.manager.toJSON()
             
@@ -97,17 +97,17 @@ class LoggingViewController: UIViewController {
         
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(incrementCount), userInfo: nil, repeats: true)
         
-        let date: Date
+        let seconds: TimeInterval
         
         if index == 0 {
-            date = Date(timeIntervalSinceNow: 180)
+            seconds = 180
             timerDescriptionLabel.text = "Rest for 3 min. If you need more time, rest for 5 min."
         } else {
-            date = Date(timeIntervalSinceNow: 60)
+            seconds = 60
             timerDescriptionLabel.text = "Rest for 1 min. If you need more time rest for 3 min."
         }
         
-        delegate?.scheduleNotification(at: date)
+        delegate?.scheduleNotification(after: seconds)
     }
     
     @IBAction func closeTimer() {

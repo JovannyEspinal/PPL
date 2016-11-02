@@ -30,10 +30,8 @@ class WorkoutListViewController: UIViewController {
         if let selectedIndexPathRow = tableView.indexPathForSelectedRow {
             tableView.deselectRow(at: selectedIndexPathRow, animated: false)
         }
-        
         tableView.reloadData()
     }
-    
     
     @IBAction func addWorkout(_ sender: UIBarButtonItem) {
         showLoggingVC()

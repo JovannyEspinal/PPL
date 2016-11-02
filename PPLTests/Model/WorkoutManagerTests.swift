@@ -227,7 +227,7 @@ class WorkoutManagerTests: XCTestCase {
         let originalWeight = pullWorkout2.exercises[1].weight
         let deloadWeight = originalWeight * 0.1
         
-        XCTAssertEqual(alternatePullWorkout2.exercises[1].weight, originalWeight - deloadWeight)
+        XCTAssertEqual(alternatePullWorkout2.exercises[1].weight, round(((originalWeight - deloadWeight) / 2.5)) * 2.5)
     }
 
     // MARK: Initial Workout Creation Tests
