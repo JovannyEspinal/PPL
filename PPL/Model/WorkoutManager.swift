@@ -343,7 +343,8 @@ extension WorkoutManager {
                 
                 if adjustedExercise.failCount == 3 {
                     let deloadAmount = adjustedExercise.weight * 0.1
-                    let deloadedExercise = (adjustedExercise |> Exercise.weightLens *~ (pastexercise.weight - deloadAmount)) |> Exercise.failCountLens *~ 0
+                    let newWeightTotal = round(((pastexercise.weight - deloadAmount) / 2.5)) * 2.5
+                    let deloadedExercise = (adjustedExercise |> Exercise.weightLens *~ newWeightTotal) |> Exercise.failCountLens *~ 0
                     updatedExercise = deloadedExercise
                 } else {
                     updatedExercise = adjustedExercise
