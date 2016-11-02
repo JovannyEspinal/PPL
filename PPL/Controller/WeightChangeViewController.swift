@@ -21,7 +21,7 @@ class WeightChangeViewController: UIViewController {
     @IBOutlet weak var tenPlateLabel: UILabel!
     @IBOutlet weak var fivePlateLabel: UILabel!
     @IBOutlet weak var twoAndAHalfPlateLabel: UILabel!
-    @IBOutlet weak var barbellLabel: UILabel!
+    @IBOutlet weak var addOnEachSideLabel: UILabel!
     var delegate: WeightChangedViewControllerDelegate?
     var index: Int! {
         didSet {
@@ -41,7 +41,19 @@ class WeightChangeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateLabel()
-        calculatePlates()
+        
+        if let exerciseName = WorkoutManager.manager.currentWorkout?.exercises[index].name, barbellExercises.contains(exerciseName) {
+            addOnEachSideLabel.isHidden = false
+            calculatePlates()
+        } else {
+            addOnEachSideLabel.isHidden = true
+            fortyFivePlateLabel.isHidden = true
+            thirtyFivePlateLabel.isHidden = true
+            twentyFivePlateLabel.isHidden = true
+            tenPlateLabel.isHidden = true
+            fivePlateLabel.isHidden = true
+            twoAndAHalfPlateLabel.isHidden = true
+        }
     }
     
     
@@ -52,7 +64,6 @@ class WeightChangeViewController: UIViewController {
         }
         
         updateLabel()
-        calculatePlates()
     }
     
     @IBAction func decrementWeight() {
@@ -66,7 +77,6 @@ class WeightChangeViewController: UIViewController {
         }
         
         updateLabel()
-        calculatePlates()
     }
     
     @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
@@ -90,6 +100,7 @@ class WeightChangeViewController: UIViewController {
         
         if let exerciseName = WorkoutManager.manager.currentWorkout?.exercises[index].name, barbellExercises.contains(exerciseName) {
             navigationBar.topItem?.title = updatedWeight <= 45.0 ? "Lift The Empty Bar" : "Add \((updatedWeight-45.0)/2)lbs/side"
+            calculatePlates()
         } else {
             navigationBar.topItem?.title = "Change Exercise Weight"
         }
@@ -154,18 +165,12 @@ class WeightChangeViewController: UIViewController {
     }
     
     func updatePlateLabels(with plates: [Double: Int]) {
-        fortyFivePlateLabel.isHidden = false
-        thirtyFivePlateLabel.isHidden = false
-        twentyFivePlateLabel.isHidden = false
-        tenPlateLabel.isHidden = false
-        fivePlateLabel.isHidden = false
-        twoAndAHalfPlateLabel.isHidden = false
-        
         if let fortyFivePlateCount = plates[45.0] {
             if fortyFivePlateCount == 0 {
                 fortyFivePlateLabel.isHidden = true
             } else {
                 fortyFivePlateLabel.text = "\(fortyFivePlateCount) x 45lb"
+                fortyFivePlateLabel.isHidden = false
             }
         }
         
@@ -174,6 +179,7 @@ class WeightChangeViewController: UIViewController {
                 thirtyFivePlateLabel.isHidden = true
             } else {
                 thirtyFivePlateLabel.text = "\(thirtyFivePlateCount) x 35lb"
+                thirtyFivePlateLabel.isHidden = false
             }
         }
         
@@ -182,6 +188,7 @@ class WeightChangeViewController: UIViewController {
                 twentyFivePlateLabel.isHidden = true
             } else {
                 twentyFivePlateLabel.text = "\(twentyFivePlateCount) x 25lb"
+                twentyFivePlateLabel.isHidden = false
             }
         }
         
@@ -190,6 +197,7 @@ class WeightChangeViewController: UIViewController {
                 tenPlateLabel.isHidden = true
             } else {
                 tenPlateLabel.text = "\(tenPlateCount) x 10lb"
+                tenPlateLabel.isHidden = false
             }
         }
         
@@ -198,6 +206,7 @@ class WeightChangeViewController: UIViewController {
                 fivePlateLabel.isHidden = true
             } else {
                 fivePlateLabel.text = "\(fivePlateCount) x 5lb"
+                fivePlateLabel.isHidden = false
             }
         }
         
@@ -206,6 +215,7 @@ class WeightChangeViewController: UIViewController {
                 twoAndAHalfPlateLabel.isHidden = true
             } else {
                 twoAndAHalfPlateLabel.text = "\(twoAndAHalfPlateCount) x 2.5lb"
+                twoAndAHalfPlateLabel.isHidden = false
             }
         }
         
