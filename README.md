@@ -28,8 +28,8 @@ When it comes to working out, aside from consistency and keeping track of your d
 
 ![Alt text](http://i.imgur.com/5X3rDlN.png "Workout Home Screen")
 
-- **Changing Weight Is Nice & Easy!** - Changing the weight on an exercise is simple and intuitive. You don't even need to do any mental math as it tells you how much weight belongs on each side. (Okay, maybe you need to do a bit of mental math, but plate calculator coming soon!)
+- **Changing Weight Is Nice & Easy + Plate Calculator!** - Changing the weight on an exercise is simple and intuitive. You don't even need to do any mental math as it tells you how much weight belongs on each side!
 
-![Alt text](http://i.imgur.com/Tfr1XVb.png "Weight Change Screen")
+![Alt text](http://i.imgur.com/wzBkUD6.png "Weight Change Screen")
 
 - **Automatic Progression & Deloading** - All you need to do is get in the gym and follow what the app says. No need to change the weight every workout to change weights with the exception of the first time you do a workout. The app automatically progresses your workout based on your performance. Complete all reps for every set? The weight will be incremented next time you do that exercise. Haven't completed all reps for every set in three workouts in a row? The weight will be deloaded by 10% next time you do that exercise.
