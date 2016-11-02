@@ -1,18 +1,18 @@
 #What is PPL?
 PPL is an acronym for the weight training schedule that focuses on splitting the workouts into 3 body groups: upper body pulling muscles, upper body pushing muscles and legs. Each group is then trained separately on its own workout day. 
 
-- Push Day - Chest, Shoulders and Triceps
 - Pull Day - Back and Biceps
+- Push Day - Chest, Shoulders and Triceps
 - Leg Day - Quads, Hamstrings and Calves
 
 The schedule can be run a couple of different ways, but this app will be ran in the original format: The fixed 6-Day classic schedule (Sunday Off).
 
 **6 Day Classic Schedule (Sunday Off)**
-- Monday: Push
-- Tuesday: Pull
+- Monday: Pull 
+- Tuesday: Push
 - Wednesday: Legs
-- Thursday: Push
-- Friday: Pull
+- Thursday: Pull 
+- Friday: Push 
 - Saturday: Legs
 - Sunday: Rest
 
