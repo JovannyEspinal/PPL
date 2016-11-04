@@ -16,7 +16,11 @@ struct Exercise {
     let failCount: Int
 }
 
-
+extension Exercise {
+    var kgWeight: Double {
+        return round((10.0*(weight * 0.45359237))) / 10.0
+    }
+}
 extension Exercise: ImmutableMappable {
     init(name: String, weight: Double, numberOfSets: Int, numberOfReps: Int, failCount: Int = 0) {
         self.name = name
@@ -88,11 +92,20 @@ extension Exercise: Equatable {
 
 extension Exercise: CustomStringConvertible {
     var description: String {
-        return "\(self.name) \(self.sets.count)x\(self.sets[0].numberOfReps) \(self.weight.cleanValue)lbs"
+        if let isKilograms = UserDefaults.standard.value(forKey: "metricIsKilograms") as? Bool, isKilograms == true {
+            return "\(self.name) \(self.sets.count)x\(self.sets[0].numberOfReps) \(self.kgWeight.cleanValue)kg"
+        } else {
+            return "\(self.name) \(self.sets.count)x\(self.sets[0].numberOfReps) \(self.weight.cleanValue)lbs"
+        }
     }
     
     var setxWeightDescription: String {
-        return "\(self.sets.count)x\(self.sets[0].numberOfReps) \(self.weight.cleanValue)lbs"
+        
+        if let isKilograms = UserDefaults.standard.value(forKey: "metricIsKilograms") as? Bool, isKilograms == true {
+            return "\(self.sets.count)x\(self.sets[0].numberOfReps) \(self.kgWeight.cleanValue)kg"
+        } else {
+            return "\(self.sets.count)x\(self.sets[0].numberOfReps) \(self.weight.cleanValue)lbs"
+        }
     }
 }
 

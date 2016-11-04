@@ -16,14 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        
         let navController = window?.rootViewController as! UINavigationController
         let workoutController = navController.viewControllers[0] as! WorkoutListViewController
-        
-        // Load past exercises
-        // Assign it to WorkoutManager's pastExercises array
-        // WorkoutManager.manager.pastExercises = loaded exercises
-        
         
         if let pastWorkouts = UserDefaults.standard.object(forKey: "PastWorkouts") as? [String:Any] {
             let workouts = WorkoutManager.manager.parse(json: pastWorkouts)
@@ -31,7 +25,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         WorkoutManager.manager.currentWorkout = WorkoutManager.manager.createWorkout()
-        
         
         let dataProvider = WorkoutListDataProvider()
         workoutController.dataProvider = dataProvider

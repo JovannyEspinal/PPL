@@ -8,10 +8,11 @@
 
 import UIKit
 
-class WorkoutListViewController: UIViewController {
+class WorkoutListViewController: UIViewController, SettingsViewDelegate {
     
     @IBOutlet var tableView: UITableView!
     var dataProvider: WorkoutListDataProvider!
+    lazy var slideInTransitioningDelegate = SlideinPresentationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,8 +44,7 @@ class WorkoutListViewController: UIViewController {
         }
     }
     
-    
-    @IBAction func removeAllWorkouts(_ sender: UIBarButtonItem) {
+    func clearWorkoutHistory() {
         let alertController = UIAlertController(title: "Clear Workout History", message: "Are you sure you want to clear your workout history? Everything will be reset to default settings.", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         let saveAction = UIAlertAction(title: "Delete", style: .destructive) { [unowned self] _ in
@@ -54,18 +54,36 @@ class WorkoutListViewController: UIViewController {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
-            
         }
-        
         alertController.addAction(cancelAction)
         alertController.addAction(saveAction)
-        
         present(alertController, animated: true)
         
+    }
+    
+    func switchWeightFormat() {
+        if let isKilograms = UserDefaults.standard.value(forKey: "metricIsKilograms") as? Bool, isKilograms == true {
+            UserDefaults.standard.set(false, forKey: "metricIsKilograms")
+        } else {
+            UserDefaults.standard.set(true, forKey: "metricIsKilograms")
+        }
+        
+        tableView.reloadData()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let controller = segue.destination as? SettingsViewController {
+            if segue.identifier == "Settings" {
+                slideInTransitioningDelegate.direction = .left
+                
+            }
+            controller.settingsViewDelegate = self
+            controller.transitioningDelegate = slideInTransitioningDelegate
+            controller.modalPresentationStyle = .custom
+        }
     }
     
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-    
 }

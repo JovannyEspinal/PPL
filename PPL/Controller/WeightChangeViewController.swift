@@ -96,14 +96,28 @@ class WeightChangeViewController: UIViewController {
     func updateLabel() {
         guard let updatedWeight = weight else { return }
         
-        weightLabel.text = "\(updatedWeight)"
+        let barbell: Double
         
         if let exerciseName = WorkoutManager.manager.currentWorkout?.exercises[index].name, barbellExercises.contains(exerciseName) {
-            navigationBar.topItem?.title = updatedWeight <= 45.0 ? "Lift The Empty Bar" : "Add \((updatedWeight-45.0)/2)lbs/side"
+            if let isKilograms = UserDefaults.standard.value(forKey: "metricIsKilograms") as? Bool, isKilograms == true {
+                let kgWeight = round((10.0*(updatedWeight.kilograms))) / 10.0
+                weightLabel.text = "\(kgWeight)"
+                barbell = round((10.0*(45.0.kilograms))) / 10.0
+                navigationBar.topItem?.title = kgWeight <= barbell ? "Lift The Empty Bar" : "Add \((kgWeight-barbell)/2)kg/side"
+                addOnEachSideLabel.text = "Add on each side of \(barbell)kg barbell"
+            } else {
+                weightLabel.text = "\(updatedWeight)"
+                barbell = 45.0
+                navigationBar.topItem?.title = updatedWeight <= barbell ? "Lift The Empty Bar" : "Add \((updatedWeight-barbell)/2)lbs/side"
+                addOnEachSideLabel.text = "Add on each side of \(barbell)lb barbell"
+            }
+            
             calculatePlates()
         } else {
             navigationBar.topItem?.title = "Change Exercise Weight"
         }
+        
+        
     }
     
     func calculatePlates() {
@@ -165,11 +179,34 @@ class WeightChangeViewController: UIViewController {
     }
     
     func updatePlateLabels(with plates: [Double: Int]) {
+        let plate2string: String
+        let plate5string: String
+        let plate10string: String
+        let plate25string: String
+        let plate35string: String
+        let plate45string: String
+        
+        if let isKilograms = UserDefaults.standard.value(forKey: "metricIsKilograms") as? Bool, isKilograms == true {
+            plate2string = "1.1kg"
+            plate5string = "2.2kg"
+            plate10string = "4.5kg"
+            plate25string = "11.3kg"
+            plate35string = "15.9kg"
+            plate45string = "20.4kg"
+        } else {
+            plate2string = "2.5lb"
+            plate5string = "5lb"
+            plate10string = "10lb"
+            plate25string = "25lb"
+            plate35string = "35lb"
+            plate45string = "45lb"
+        }
+        
         if let fortyFivePlateCount = plates[45.0] {
             if fortyFivePlateCount == 0 {
                 fortyFivePlateLabel.isHidden = true
             } else {
-                fortyFivePlateLabel.text = "\(fortyFivePlateCount) x 45lb"
+                fortyFivePlateLabel.text = "\(fortyFivePlateCount) x \(plate45string)"
                 fortyFivePlateLabel.isHidden = false
             }
         }
@@ -178,7 +215,7 @@ class WeightChangeViewController: UIViewController {
             if thirtyFivePlateCount == 0 {
                 thirtyFivePlateLabel.isHidden = true
             } else {
-                thirtyFivePlateLabel.text = "\(thirtyFivePlateCount) x 35lb"
+                thirtyFivePlateLabel.text = "\(thirtyFivePlateCount) x \(plate35string)"
                 thirtyFivePlateLabel.isHidden = false
             }
         }
@@ -187,7 +224,7 @@ class WeightChangeViewController: UIViewController {
             if twentyFivePlateCount == 0 {
                 twentyFivePlateLabel.isHidden = true
             } else {
-                twentyFivePlateLabel.text = "\(twentyFivePlateCount) x 25lb"
+                twentyFivePlateLabel.text = "\(twentyFivePlateCount) x \(plate25string)"
                 twentyFivePlateLabel.isHidden = false
             }
         }
@@ -196,7 +233,7 @@ class WeightChangeViewController: UIViewController {
             if tenPlateCount == 0 {
                 tenPlateLabel.isHidden = true
             } else {
-                tenPlateLabel.text = "\(tenPlateCount) x 10lb"
+                tenPlateLabel.text = "\(tenPlateCount) x \(plate10string)"
                 tenPlateLabel.isHidden = false
             }
         }
@@ -205,7 +242,7 @@ class WeightChangeViewController: UIViewController {
             if fivePlateCount == 0 {
                 fivePlateLabel.isHidden = true
             } else {
-                fivePlateLabel.text = "\(fivePlateCount) x 5lb"
+                fivePlateLabel.text = "\(fivePlateCount) x \(plate5string)"
                 fivePlateLabel.isHidden = false
             }
         }
@@ -214,14 +251,20 @@ class WeightChangeViewController: UIViewController {
             if twoAndAHalfPlateCount == 0 {
                 twoAndAHalfPlateLabel.isHidden = true
             } else {
-                twoAndAHalfPlateLabel.text = "\(twoAndAHalfPlateCount) x 2.5lb"
+                twoAndAHalfPlateLabel.text = "\(twoAndAHalfPlateCount) x \(plate2string)"
                 twoAndAHalfPlateLabel.isHidden = false
             }
         }
-        
     }
 }
 
+extension Double {
+    
+    var kilograms: Double {
+        return self * 0.45359237
+    }
+    
+}
 
 
 
