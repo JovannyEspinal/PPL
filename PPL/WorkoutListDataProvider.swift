@@ -53,7 +53,6 @@ class WorkoutListDataProvider: NSObject, UITableViewDataSource, UITableViewDeleg
             cell.dateLabel.isHidden = true
         case .pastSessions:
             workout = workoutManager.workout(atIndex: indexPath.row)!
-            cell.isUserInteractionEnabled = false
         }
         
         cell.configCell(with: workout)
@@ -80,18 +79,8 @@ class WorkoutListDataProvider: NSObject, UITableViewDataSource, UITableViewDeleg
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             NotificationCenter.default.post(name: Notification.Name("CurrentSessionTapped"), object: nil)
+        } else {
+            NotificationCenter.default.post(name: Notification.Name("PastSessionTapped"), object: nil, userInfo: ["index": indexPath.row])
         }
     }
-    
-    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        if indexPath.section == 1 { return nil }
-        
-        return indexPath
-    }
-    
-    
-    
-    
-    
-    
 }

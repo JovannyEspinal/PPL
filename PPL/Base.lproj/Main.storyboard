@@ -590,6 +590,193 @@
             </objects>
             <point key="canvasLocation" x="177" y="28"/>
         </scene>
+        <!--Workout View Controller-->
+        <scene sceneID="5yr-HH-Dim">
+            <objects>
+                <viewController storyboardIdentifier="PastWorkoutViewController" id="IqJ-f5-838" customClass="WorkoutViewController" customModule="PPL" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="FOC-M8-3zF"/>
+                        <viewControllerLayoutGuide type="bottom" id="edL-3b-l6x"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Alv-Id-QVa">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="93" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="IMg-FT-Tds">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="PastExerciseCell" rowHeight="93" id="lXb-Sm-fai" customClass="PastWorkoutCell" customModule="PPL" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="93"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lXb-Sm-fai" id="bme-cS-Vwe">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="92"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="QPH-jG-fiI">
+                                                    <rect key="frame" x="8" y="0.0" width="359" height="33"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JYn-Ix-zKa">
+                                                            <rect key="frame" x="0.0" y="0.0" width="114" height="33"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L5W-eZ-wHg">
+                                                            <rect key="frame" x="114" y="0.0" width="245" height="33"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <state key="normal" title="Set x Weight">
+                                                                <color key="titleColor" red="0.031372549020000001" green="0.2901960784" blue="0.51372549020000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="changeWeight:" destination="lXb-Sm-fai" eventType="touchUpInside" id="Uyu-DV-NpN"/>
+                                                            </connections>
+                                                        </button>
+                                                    </subviews>
+                                                </stackView>
+                                                <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="be5-Vi-bMd" userLabel="Set1" customClass="RoundButton" customModule="PPL" customModuleProvider="target">
+                                                    <rect key="frame" x="8" y="33" width="45" height="45"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="be5-Vi-bMd" secondAttribute="height" multiplier="1:1" id="5JU-bw-HS1"/>
+                                                        <constraint firstAttribute="width" constant="45" id="5MJ-ou-b9b"/>
+                                                        <constraint firstAttribute="height" constant="45" id="sn1-gB-2AL"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                            <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                            <real key="value" value="1"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                    <connections>
+                                                        <action selector="setButtonTapped:" destination="lXb-Sm-fai" eventType="touchUpInside" id="V7y-mj-QcO"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="336-5I-vYH" userLabel="Set2" customClass="RoundButton" customModule="PPL" customModuleProvider="target">
+                                                    <rect key="frame" x="73" y="33" width="45" height="45"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="336-5I-vYH" secondAttribute="height" multiplier="1:1" id="F6I-U5-U1t"/>
+                                                        <constraint firstAttribute="width" constant="45" id="bzL-aN-mI8"/>
+                                                        <constraint firstAttribute="height" constant="45" id="p7Q-oA-UA0"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                            <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                            <real key="value" value="1"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                    <connections>
+                                                        <action selector="setButtonTapped:" destination="lXb-Sm-fai" eventType="touchUpInside" id="aji-0M-ihS"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Dj-PV-9Do" userLabel="Set3" customClass="RoundButton" customModule="PPL" customModuleProvider="target">
+                                                    <rect key="frame" x="138" y="33" width="45" height="45"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="0Dj-PV-9Do" secondAttribute="height" multiplier="1:1" id="PJK-Ij-UIa"/>
+                                                        <constraint firstAttribute="height" constant="45" id="ea7-gT-lIa"/>
+                                                        <constraint firstAttribute="width" constant="45" id="n40-L5-LXN"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                            <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                            <real key="value" value="1"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                    <connections>
+                                                        <action selector="setButtonTapped:" destination="lXb-Sm-fai" eventType="touchUpInside" id="m1X-t4-iea"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" userInteractionEnabled="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NMM-X6-ud3" userLabel="Set5" customClass="RoundButton" customModule="PPL" customModuleProvider="target">
+                                                    <rect key="frame" x="268" y="33" width="45" height="45"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="45" id="4Kb-i0-BxY"/>
+                                                        <constraint firstAttribute="width" constant="45" id="OQz-V5-bSZ"/>
+                                                        <constraint firstAttribute="width" secondItem="NMM-X6-ud3" secondAttribute="height" multiplier="1:1" id="wRP-eV-eYL"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                            <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                            <real key="value" value="1"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                    <connections>
+                                                        <action selector="setButtonTapped:" destination="lXb-Sm-fai" eventType="touchUpInside" id="Xjn-GB-JbW"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wAD-rs-Vfy" userLabel="Set4" customClass="RoundButton" customModule="PPL" customModuleProvider="target">
+                                                    <rect key="frame" x="203" y="33" width="45" height="45"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="wAD-rs-Vfy" secondAttribute="height" multiplier="1:1" id="Hm5-LE-avU"/>
+                                                        <constraint firstAttribute="height" constant="45" id="nnH-hK-4sr"/>
+                                                        <constraint firstAttribute="width" constant="45" id="q6M-a3-W2n"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                            <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                            <real key="value" value="1"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                    <connections>
+                                                        <action selector="setButtonTapped:" destination="lXb-Sm-fai" eventType="touchUpInside" id="6Be-6s-8p4"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="wAD-rs-Vfy" firstAttribute="centerY" secondItem="0Dj-PV-9Do" secondAttribute="centerY" id="0WN-3A-PLb"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="QPH-jG-fiI" secondAttribute="trailing" id="CZx-0n-q6t"/>
+                                                <constraint firstItem="336-5I-vYH" firstAttribute="leading" secondItem="be5-Vi-bMd" secondAttribute="trailing" constant="20" id="Fvq-tt-7nd"/>
+                                                <constraint firstItem="wAD-rs-Vfy" firstAttribute="leading" secondItem="0Dj-PV-9Do" secondAttribute="trailing" constant="20" id="Gni-kp-gb5"/>
+                                                <constraint firstItem="0Dj-PV-9Do" firstAttribute="centerY" secondItem="336-5I-vYH" secondAttribute="centerY" id="HgB-cR-Iq0"/>
+                                                <constraint firstItem="NMM-X6-ud3" firstAttribute="centerY" secondItem="wAD-rs-Vfy" secondAttribute="centerY" id="JIc-SX-I4b"/>
+                                                <constraint firstItem="be5-Vi-bMd" firstAttribute="top" secondItem="QPH-jG-fiI" secondAttribute="bottom" id="PZV-Kd-Mt1"/>
+                                                <constraint firstItem="336-5I-vYH" firstAttribute="centerY" secondItem="be5-Vi-bMd" secondAttribute="centerY" id="R8h-WK-iQo"/>
+                                                <constraint firstItem="QPH-jG-fiI" firstAttribute="top" secondItem="bme-cS-Vwe" secondAttribute="topMargin" constant="-8" id="Tc7-UM-h5H"/>
+                                                <constraint firstItem="0Dj-PV-9Do" firstAttribute="leading" secondItem="336-5I-vYH" secondAttribute="trailing" constant="20" id="fCR-xU-FK4"/>
+                                                <constraint firstItem="be5-Vi-bMd" firstAttribute="leading" secondItem="bme-cS-Vwe" secondAttribute="leadingMargin" id="mSk-IQ-csm"/>
+                                                <constraint firstItem="QPH-jG-fiI" firstAttribute="leading" secondItem="bme-cS-Vwe" secondAttribute="leadingMargin" id="nRs-IE-QGT"/>
+                                                <constraint firstItem="NMM-X6-ud3" firstAttribute="leading" secondItem="wAD-rs-Vfy" secondAttribute="trailing" constant="20" id="pvu-DD-MgY"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="exerciseNameLabel" destination="JYn-Ix-zKa" id="kF0-AG-5eP"/>
+                                            <outlet property="setxWeightButton" destination="L5W-eZ-wHg" id="Tju-mm-4Op"/>
+                                            <outletCollection property="sets" destination="be5-Vi-bMd" collectionClass="NSMutableArray" id="u9w-2J-D53"/>
+                                            <outletCollection property="sets" destination="336-5I-vYH" collectionClass="NSMutableArray" id="ECp-wE-yXT"/>
+                                            <outletCollection property="sets" destination="0Dj-PV-9Do" collectionClass="NSMutableArray" id="KNm-HC-Cls"/>
+                                            <outletCollection property="sets" destination="wAD-rs-Vfy" collectionClass="NSMutableArray" id="16S-qs-kWD"/>
+                                            <outletCollection property="sets" destination="NMM-X6-ud3" collectionClass="NSMutableArray" id="1Gj-IS-rwH"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.031372549020000001" green="0.2901960784" blue="0.51372549020000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="IMg-FT-Tds" firstAttribute="leading" secondItem="Alv-Id-QVa" secondAttribute="leading" id="2JR-RP-qt8"/>
+                            <constraint firstAttribute="trailing" secondItem="IMg-FT-Tds" secondAttribute="trailing" id="2xt-uR-7ma"/>
+                            <constraint firstItem="IMg-FT-Tds" firstAttribute="top" secondItem="Alv-Id-QVa" secondAttribute="top" id="7bA-xA-KCf"/>
+                            <constraint firstItem="edL-3b-l6x" firstAttribute="top" secondItem="IMg-FT-Tds" secondAttribute="bottom" id="j1G-2l-zdt"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="dataProvider" destination="uhv-ig-5cX" id="zuh-Ts-L69"/>
+                        <outlet property="tableView" destination="IMg-FT-Tds" id="lAt-59-mg3"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mNc-m4-19C" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <customObject id="Hxh-Ey-irU" customClass="LoggingWorkoutDataProvider" customModule="PPL" customModuleProvider="target"/>
+            </objects>
+            <point key="canvasLocation" x="1668" y="722"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Delete" width="50" height="50"/>

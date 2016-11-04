@@ -23,6 +23,8 @@ class WorkoutListViewController: UIViewController, SettingsViewDelegate {
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
         
         NotificationCenter.default.addObserver(self, selector: #selector(showLoggingVC), name: Notification.Name("CurrentSessionTapped"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(showPastWorkoutVC), name: Notification.Name("PastSessionTapped"), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -41,6 +43,17 @@ class WorkoutListViewController: UIViewController, SettingsViewDelegate {
     func showLoggingVC() {
         if let loggingViewController = storyboard?.instantiateViewController(withIdentifier: "LoggingViewController") as? LoggingViewController {
             navigationController?.pushViewController(loggingViewController, animated: true)
+        }
+    }
+    
+    func showPastWorkoutVC(sender: Notification) {
+        guard let senderIndex = sender.userInfo?["index"] as? Int else { return }
+        
+        if let workoutVC = storyboard?.instantiateViewController(withIdentifier: "PastWorkoutViewController") as? WorkoutViewController {
+            let dataProvider = WorkoutDataProvider()
+            dataProvider.index = senderIndex
+            workoutVC.dataProvider = dataProvider
+            navigationController?.pushViewController(workoutVC, animated: true)
         }
     }
     

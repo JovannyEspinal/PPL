@@ -26,5 +26,4 @@ class LoggingWorkoutDataProvider: NSObject, UITableViewDataSource, UITableViewDe
         
         return cell
     }
-    
 }
