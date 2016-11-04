@@ -33,3 +33,5 @@ When it comes to working out, aside from consistency and keeping track of your d
 ![Alt text](http://i.imgur.com/DbXRXhj.png "Weight Change Screen")
 
 - **Automatic Progression & Deloading** - All you need to do is get in the gym and follow what the app says. No need to change the weight every workout to change weights with the exception of the first time you do a workout. The app automatically progresses your workout based on your performance. Complete all reps for every set? The weight will be incremented next time you do that exercise. Haven't completed all reps for every set in three workouts in a row? The weight will be deloaded by 10% next time you do that exercise.
+
+![Alt text](http://i.imgur.com/zz9VT0b.png "Home Screen")
