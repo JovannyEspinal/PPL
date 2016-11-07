@@ -59,22 +59,22 @@ class WeightChangeViewController: UIViewController {
     
     @IBAction func incrementWeight() {
         
-        if let exerciseName = WorkoutManager.manager.currentWorkout?.exercises[index].name, let updatedWeight = weight {
-            weight = compoundExercises.contains(exerciseName) ? updatedWeight + 5.0 : updatedWeight + 2.5
-        }
+        guard let exerciseName = WorkoutManager.manager.currentWorkout?.exercises[index].name, let updatedWeight = weight else { return }
+        
+        weight = compoundExercises.contains(exerciseName) ? updatedWeight + 5.0 : updatedWeight + 2.5
         
         updateLabel()
     }
     
     @IBAction func decrementWeight() {
-        if let exerciseName = WorkoutManager.manager.currentWorkout?.exercises[index].name, let updatedWeight = weight {
-            
-            if updatedWeight == 0 {
-                return
-            }
-            
-            weight = compoundExercises.contains(exerciseName) ? updatedWeight - 5.0 : updatedWeight - 2.5
+        guard let exerciseName = WorkoutManager.manager.currentWorkout?.exercises[index].name, let updatedWeight = weight else { return }
+        
+        if updatedWeight == 0 {
+            return
         }
+        
+        weight = compoundExercises.contains(exerciseName) ? updatedWeight - 5.0 : updatedWeight - 2.5
+        
         
         updateLabel()
     }
@@ -96,28 +96,37 @@ class WeightChangeViewController: UIViewController {
     func updateLabel() {
         guard let updatedWeight = weight else { return }
         
+        guard let exerciseName = WorkoutManager.manager.currentWorkout?.exercises[index].name else { return }
+        
         let barbell: Double
         
-        if let exerciseName = WorkoutManager.manager.currentWorkout?.exercises[index].name, barbellExercises.contains(exerciseName) {
-            if let isKilograms = UserDefaults.standard.value(forKey: "metricIsKilograms") as? Bool, isKilograms == true {
-                let kgWeight = round((10.0*(updatedWeight.kilograms))) / 10.0
-                weightLabel.text = "\(kgWeight)"
-                barbell = round((10.0*(45.0.kilograms))) / 10.0
+        if let isKilograms = UserDefaults.standard.value(forKey: "metricIsKilograms") as? Bool, isKilograms == true {
+            let kgWeight = round((10.0*(updatedWeight.kilograms))) / 10.0
+            
+            weightLabel.text = "\(kgWeight)"
+            barbell = round((10.0*(45.0.kilograms))) / 10.0
+            
+            if barbellExercises.contains(exerciseName) {
                 navigationBar.topItem?.title = kgWeight <= barbell ? "Lift The Empty Bar" : "Add \((kgWeight-barbell)/2)kg/side"
-                addOnEachSideLabel.text = "Add on each side of \(barbell)kg barbell"
             } else {
-                weightLabel.text = "\(updatedWeight)"
-                barbell = 45.0
-                navigationBar.topItem?.title = updatedWeight <= barbell ? "Lift The Empty Bar" : "Add \((updatedWeight-barbell)/2)lbs/side"
-                addOnEachSideLabel.text = "Add on each side of \(barbell)lb barbell"
+                navigationBar.topItem?.title = "Change Exercise Weight"
             }
             
-            calculatePlates()
+            addOnEachSideLabel.text = "Add on each side of \(barbell)kg barbell"
         } else {
-            navigationBar.topItem?.title = "Change Exercise Weight"
+            weightLabel.text = "\(updatedWeight)"
+            barbell = 45.0
+            
+            if barbellExercises.contains(exerciseName) {
+                navigationBar.topItem?.title = updatedWeight <= barbell ? "Lift The Empty Bar" : "Add \((updatedWeight-barbell)/2)lbs/side"
+            } else {
+                navigationBar.topItem?.title = "Change Exercise Weight"
+            }
+            
+            addOnEachSideLabel.text = "Add on each side of \(barbell)lb barbell"
         }
         
-        
+        calculatePlates()
     }
     
     func calculatePlates() {
@@ -202,57 +211,59 @@ class WeightChangeViewController: UIViewController {
             plate45string = "45lb"
         }
         
-        if let fortyFivePlateCount = plates[45.0] {
-            if fortyFivePlateCount == 0 {
-                fortyFivePlateLabel.isHidden = true
-            } else {
-                fortyFivePlateLabel.text = "\(fortyFivePlateCount) x \(plate45string)"
-                fortyFivePlateLabel.isHidden = false
+        if let exerciseName = WorkoutManager.manager.currentWorkout?.exercises[index].name, barbellExercises.contains(exerciseName) {
+            if let fortyFivePlateCount = plates[45.0] {
+                if fortyFivePlateCount == 0 {
+                    fortyFivePlateLabel.isHidden = true
+                } else {
+                    fortyFivePlateLabel.text = "\(fortyFivePlateCount) x \(plate45string)"
+                    fortyFivePlateLabel.isHidden = false
+                }
             }
-        }
-        
-        if let thirtyFivePlateCount = plates[35.0] {
-            if thirtyFivePlateCount == 0 {
-                thirtyFivePlateLabel.isHidden = true
-            } else {
-                thirtyFivePlateLabel.text = "\(thirtyFivePlateCount) x \(plate35string)"
-                thirtyFivePlateLabel.isHidden = false
+            
+            if let thirtyFivePlateCount = plates[35.0] {
+                if thirtyFivePlateCount == 0 {
+                    thirtyFivePlateLabel.isHidden = true
+                } else {
+                    thirtyFivePlateLabel.text = "\(thirtyFivePlateCount) x \(plate35string)"
+                    thirtyFivePlateLabel.isHidden = false
+                }
             }
-        }
-        
-        if let twentyFivePlateCount = plates[25.0] {
-            if twentyFivePlateCount == 0 {
-                twentyFivePlateLabel.isHidden = true
-            } else {
-                twentyFivePlateLabel.text = "\(twentyFivePlateCount) x \(plate25string)"
-                twentyFivePlateLabel.isHidden = false
+            
+            if let twentyFivePlateCount = plates[25.0] {
+                if twentyFivePlateCount == 0 {
+                    twentyFivePlateLabel.isHidden = true
+                } else {
+                    twentyFivePlateLabel.text = "\(twentyFivePlateCount) x \(plate25string)"
+                    twentyFivePlateLabel.isHidden = false
+                }
             }
-        }
-        
-        if let tenPlateCount = plates[10.0] {
-            if tenPlateCount == 0 {
-                tenPlateLabel.isHidden = true
-            } else {
-                tenPlateLabel.text = "\(tenPlateCount) x \(plate10string)"
-                tenPlateLabel.isHidden = false
+            
+            if let tenPlateCount = plates[10.0] {
+                if tenPlateCount == 0 {
+                    tenPlateLabel.isHidden = true
+                } else {
+                    tenPlateLabel.text = "\(tenPlateCount) x \(plate10string)"
+                    tenPlateLabel.isHidden = false
+                }
             }
-        }
-        
-        if let fivePlateCount = plates[5.0] {
-            if fivePlateCount == 0 {
-                fivePlateLabel.isHidden = true
-            } else {
-                fivePlateLabel.text = "\(fivePlateCount) x \(plate5string)"
-                fivePlateLabel.isHidden = false
+            
+            if let fivePlateCount = plates[5.0] {
+                if fivePlateCount == 0 {
+                    fivePlateLabel.isHidden = true
+                } else {
+                    fivePlateLabel.text = "\(fivePlateCount) x \(plate5string)"
+                    fivePlateLabel.isHidden = false
+                }
             }
-        }
-        
-        if let twoAndAHalfPlateCount = plates[2.5] {
-            if twoAndAHalfPlateCount == 0 {
-                twoAndAHalfPlateLabel.isHidden = true
-            } else {
-                twoAndAHalfPlateLabel.text = "\(twoAndAHalfPlateCount) x \(plate2string)"
-                twoAndAHalfPlateLabel.isHidden = false
+            
+            if let twoAndAHalfPlateCount = plates[2.5] {
+                if twoAndAHalfPlateCount == 0 {
+                    twoAndAHalfPlateLabel.isHidden = true
+                } else {
+                    twoAndAHalfPlateLabel.text = "\(twoAndAHalfPlateCount) x \(plate2string)"
+                    twoAndAHalfPlateLabel.isHidden = false
+                }
             }
         }
     }

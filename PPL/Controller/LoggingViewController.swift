@@ -17,8 +17,10 @@ class LoggingViewController: UIViewController {
     @IBOutlet weak var timerLabel: UILabel!
     @IBOutlet weak var timerContainer: UIView!
     @IBOutlet weak var timerDescriptionLabel: UILabel!
+    var date: String?
     var timer: Timer?
-    var count = 0
+    var start: CFAbsoluteTime!
+    var elapsedTime: Double = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,12 +32,34 @@ class LoggingViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(showWCVC), name: Notification.Name("ChangeWeightButtonTapped"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(startTimer), name: Notification.Name("SetButtonTapped"), object: nil)
+        
+        let restTimerButton = UIBarButtonItem(image: UIImage(named: "Stopwatch") , style: .plain, target: self, action: #selector(showRestTimer))
+        self.navigationItem.rightBarButtonItem = restTimerButton
+        
+        if let savedStartDate = UserDefaults.standard.object(forKey: "startDate") as? CFAbsoluteTime {
+            start = savedStartDate
+            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(calculateTime), userInfo: nil, repeats: true)
+            timerContainer.isHidden = false
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         tableView.reloadData()
-        timerContainer.isHidden = true
     }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        timer?.invalidate()
+    }
+    
+    
+    func showRestTimer() {
+        guard elapsedTime > 0 else { return }
+        
+        timerContainer.isHidden = !timerContainer.isHidden
+    }
+    
     
     @IBAction func saveWorkout(_ sender: UIButton) {
         
@@ -62,8 +86,6 @@ class LoggingViewController: UIViewController {
         alertController.addAction(saveAction)
         
         present(alertController, animated: true)
-
-        
     }
     
     func showWCVC(sender: Notification) {
@@ -92,10 +114,15 @@ class LoggingViewController: UIViewController {
         
         if timer != nil {
             timer!.invalidate()
-            count = 0
+            elapsedTime = 0
+            start = 0
         }
         
-        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(incrementCount), userInfo: nil, repeats: true)
+        start = CFAbsoluteTimeGetCurrent()
+        
+        UserDefaults.standard.set(start, forKey: "startDate")
+        
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(calculateTime), userInfo: nil, repeats: true)
         
         let seconds: TimeInterval
         
@@ -113,27 +140,30 @@ class LoggingViewController: UIViewController {
     @IBAction func closeTimer() {
         timerContainer.isHidden = true
         timer!.invalidate()
+        timer = nil
+        elapsedTime = 0
+        UserDefaults.standard.removeObject(forKey: "startDate")
+        
     }
     
     func configureTimeLabel() {
-        let minutes = count / 60
-        let seconds = count % 60
-        
+        let minutes = Int(elapsedTime / 60)
+        let seconds = Int(elapsedTime.truncatingRemainder(dividingBy: 60.0))
+    
         timerLabel.text = String(format: "%d:%02d", minutes, seconds)
     }
     
-    func incrementCount(stopAt seconds: Int) {
-        count += 1
+    func calculateTime() {
+        elapsedTime = CFAbsoluteTimeGetCurrent() - start
+        
         configureTimeLabel()
         
-        if count == 60 || count == 180 || count == 300 {
+        if elapsedTime == 60 || elapsedTime == 180 || elapsedTime == 300 {
             AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
-            
         }
         
-        if count == 300 {
+        if elapsedTime == 300 {
             timer!.invalidate()
-            count = 0
             closeTimer()
         }
     }

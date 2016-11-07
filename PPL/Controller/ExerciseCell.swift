@@ -84,6 +84,8 @@ class ExerciseCell: UITableViewCell {
             }
         }
         
+        print(set.numberOfRepsCompleted)
+        
         WorkoutManager.manager.currentWorkout?.exercises[index].sets[sender.tag] = set
         
         NotificationCenter.default.post(name: Notification.Name("SetButtonTapped"), object: self, userInfo: ["index": index, "numberOfRepsCompleted": set.numberOfRepsCompleted, "set": set])

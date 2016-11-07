@@ -11,6 +11,7 @@ import UIKit
 class WorkoutViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     var dataProvider: WorkoutDataProvider!
+    var date: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,8 +20,16 @@ class WorkoutViewController: UIViewController {
         tableView.alwaysBounceVertical = false
         tableView.tableFooterView = UIView()
         tableView.allowsSelection = false
-
+        
+        if let dateString = date {
+            title = dateString
+        }
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
     }
 
     override func didReceiveMemoryWarning() {

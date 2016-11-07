@@ -80,7 +80,8 @@ class WorkoutListDataProvider: NSObject, UITableViewDataSource, UITableViewDeleg
         if indexPath.section == 0 {
             NotificationCenter.default.post(name: Notification.Name("CurrentSessionTapped"), object: nil)
         } else {
-            NotificationCenter.default.post(name: Notification.Name("PastSessionTapped"), object: nil, userInfo: ["index": indexPath.row])
+            let workoutDate = workoutManager.workout(atIndex: indexPath.row)?.date.stringDate() ?? "N/A"
+            NotificationCenter.default.post(name: Notification.Name("PastSessionTapped"), object: nil, userInfo: ["index": indexPath.row, "date": workoutDate])
         }
     }
 }

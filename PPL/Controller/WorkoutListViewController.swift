@@ -47,12 +47,13 @@ class WorkoutListViewController: UIViewController, SettingsViewDelegate {
     }
     
     func showPastWorkoutVC(sender: Notification) {
-        guard let senderIndex = sender.userInfo?["index"] as? Int else { return }
+        guard let senderIndex = sender.userInfo?["index"] as? Int, let dateString = sender.userInfo?["date"] as? String else { return }
         
         if let workoutVC = storyboard?.instantiateViewController(withIdentifier: "PastWorkoutViewController") as? WorkoutViewController {
             let dataProvider = WorkoutDataProvider()
             dataProvider.index = senderIndex
             workoutVC.dataProvider = dataProvider
+            workoutVC.date = dateString
             navigationController?.pushViewController(workoutVC, animated: true)
         }
     }
