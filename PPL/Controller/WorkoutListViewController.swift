@@ -95,7 +95,6 @@ extension WorkoutListViewController {
         alertController.addAction(cancelAction)
         alertController.addAction(saveAction)
         present(alertController, animated: true)
-        
     }
     
     func switchWeightFormat() {

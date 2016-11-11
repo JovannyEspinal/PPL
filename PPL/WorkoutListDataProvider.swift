@@ -37,7 +37,6 @@ class WorkoutListDataProvider: NSObject, UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "WorkoutCell", for: indexPath) as! WorkoutCell
         
         guard let currentWorkout = WorkoutManager.manager.currentWorkout else { fatalError() }

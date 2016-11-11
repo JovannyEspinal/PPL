@@ -9,14 +9,15 @@
 import UIKit
 
 class PastWorkoutCell: UITableViewCell {
+    @IBOutlet weak var setxWeightButton: UIButton!
+    @IBOutlet weak var exerciseNameLabel: UILabel!
+    @IBOutlet var sets: [RoundButton]!
     var exercise: Exercise? {
         didSet {
             setCount = exercise!.sets.count
         }
     }
-    @IBOutlet weak var setxWeightButton: UIButton!
-    @IBOutlet weak var exerciseNameLabel: UILabel!
-    @IBOutlet var sets: [RoundButton]!
+    
     var setCount: Int?
     
     override func prepareForReuse() {

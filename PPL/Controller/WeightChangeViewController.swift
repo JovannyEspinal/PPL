@@ -56,7 +56,6 @@ class WeightChangeViewController: UIViewController {
         }
     }
     
-    
     @IBAction func incrementWeight() {
         
         guard let exerciseName = WorkoutManager.manager.currentWorkout?.exercises[index].name, let updatedWeight = weight else { return }
@@ -69,12 +68,9 @@ class WeightChangeViewController: UIViewController {
     @IBAction func decrementWeight() {
         guard let exerciseName = WorkoutManager.manager.currentWorkout?.exercises[index].name, let updatedWeight = weight else { return }
         
-        if updatedWeight == 0 {
-            return
-        }
+        if updatedWeight == 0 { return }
         
         weight = compoundExercises.contains(exerciseName) ? updatedWeight - 5.0 : updatedWeight - 2.5
-        
         
         updateLabel()
     }
@@ -104,7 +100,7 @@ class WeightChangeViewController: UIViewController {
             let kgWeight = round((10.0*(updatedWeight.kilograms))) / 10.0
             
             weightLabel.text = "\(kgWeight)"
-            barbell = round((10.0*(45.0.kilograms))) / 10.0
+            barbell = 20
             
             if barbellExercises.contains(exerciseName) {
                 navigationBar.topItem?.title = kgWeight <= barbell ? "Lift The Empty Bar" : "Add \((kgWeight-barbell)/2)kg/side"
@@ -130,61 +126,7 @@ class WeightChangeViewController: UIViewController {
     }
     
     func calculatePlates() {
-        var dict = [2.5: 0,
-                    5.0: 0,
-                    10.0: 0,
-                    25.0: 0,
-                    35.0: 0,
-                    45.0: 0]
-        
-        guard let updatedWeight = weight else { return }
-        
-        var adjustingWeight = (updatedWeight-45.0)/2
-        
-        while (adjustingWeight - 45.0) >= 0 {
-            adjustingWeight -= 45.0
-            
-            if let value = dict[45.0] {
-                dict.updateValue(value + 1, forKey: 45.0)
-            }
-        }
-        
-        while (adjustingWeight - 35.0) >= 0 {
-            adjustingWeight -= 35.0
-            if let value = dict[35.0] {
-                dict.updateValue(value + 1, forKey: 35.0)
-            }
-        }
-        
-        while (adjustingWeight - 25.0) >= 0 {
-            adjustingWeight -= 25.0
-            if let value = dict[25.0] {
-                dict.updateValue(value + 1, forKey: 25.0)
-            }
-        }
-        
-        while (adjustingWeight - 10.0) >= 0 {
-            adjustingWeight -= 10.0
-            if let value = dict[10.0] {
-                dict.updateValue(value + 1, forKey: 10.0)
-            }
-        }
-        
-        while (adjustingWeight - 5.0) >= 0 {
-            adjustingWeight -= 5.0
-            if let value = dict[5.0] {
-                dict.updateValue(value + 1, forKey: 5.0)
-            }
-        }
-        
-        while (adjustingWeight - 2.5) >= 0 {
-            adjustingWeight -= 2.5
-            if let value = dict[2.5] {
-                dict.updateValue(value + 1, forKey: 2.5)
-            }
-        }
-        
-        updatePlateLabels(with: dict)
+        updatePlateLabels(with: PlateCalculator.plates(from: weight!))
     }
     
     func updatePlateLabels(with plates: [Double: Int]) {
@@ -196,12 +138,12 @@ class WeightChangeViewController: UIViewController {
         let plate45string: String
         
         if let isKilograms = UserDefaults.standard.value(forKey: "metricIsKilograms") as? Bool, isKilograms == true {
-            plate2string = "1.1kg"
-            plate5string = "2.2kg"
-            plate10string = "4.5kg"
-            plate25string = "11.3kg"
-            plate35string = "15.9kg"
-            plate45string = "20.4kg"
+            plate2string = "1.25kg"
+            plate5string = "2.5kg"
+            plate10string = "5kg"
+            plate25string = "11.25kg"
+            plate35string = "16.5kg"
+            plate45string = "20kg"
         } else {
             plate2string = "2.5lb"
             plate5string = "5lb"
