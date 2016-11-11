@@ -9,7 +9,6 @@
 import Foundation
 import ObjectMapper
 
-
 class WorkoutManager: NSObject, Mappable {
     static var manager = WorkoutManager()
     private override init() { }
@@ -19,13 +18,13 @@ class WorkoutManager: NSObject, Mappable {
     var pastWorkoutsCount: Int { return pastWorkouts.count }
     
     required init?(map: Map) {
-        pastWorkouts <- map["pastWorkouts"]
-        currentWorkout <- map["currentWorkout"]
+        pastWorkouts <- map[Property.pastWorkouts.rawValue]
+        currentWorkout <- map[Property.currentWorkout.rawValue]
     }
     
     func mapping(map: Map) {
-        pastWorkouts <- map["pastWorkouts"]
-        currentWorkout <- map["currentWorkout"]
+        pastWorkouts <- map[Property.pastWorkouts.rawValue]
+        currentWorkout <- map[Property.currentWorkout.rawValue]
     }
 }
 

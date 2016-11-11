@@ -9,6 +9,8 @@
 import Foundation
 
 struct ExerciseFactory {
+    
+    //MARK: - Initial Exercises Creation
     static func initialPullExercises() -> [Exercise] {
         let deadlift = Exercise(name: ExerciseNames.deadlift, weight: 90.0, numberOfSets: 1, numberOfReps: 5)
         let pulldown = Exercise(name: ExerciseNames.pulldown, weight: 45.0, numberOfSets: 3, numberOfReps: 12)
@@ -75,6 +77,7 @@ struct ExerciseFactory {
     }
 }
 
+//MARK: Updated Exercises Creation
 extension ExerciseFactory {
    static func pushExercises(withAccessoriesFrom workout: Workout,
                               andCompoundsFrom lastWorkout: Workout) -> [Exercise] {

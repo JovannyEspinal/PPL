@@ -48,17 +48,16 @@ struct WorkoutFactory {
         
         return Workout(type: .pull, exercises: [Exercise]())
     }
-    
 }
 
-// Initial workout creation methods
+//MARK: - Initial Workout Creation
 extension WorkoutFactory {
     static func initialPullWorkout() -> Workout {
         return Workout(type: .pull, exercises: ExerciseFactory.initialPullExercises())
     }
     
     fileprivate static func initialPushWorkout() -> Workout {
-        return Workout(type: .push, exercises: ExerciseFactory.initialPullExercises())
+        return Workout(type: .push, exercises: ExerciseFactory.initialPushExercises())
     }
     
     fileprivate static func initialLegWorkout() -> Workout {
@@ -74,7 +73,7 @@ extension WorkoutFactory {
     }
 }
 
-// Updated workout creation
+//MARK: - Updated Workout Creation
 extension WorkoutFactory {
     fileprivate static func legWorkout() -> Workout {
         guard let workout = mostRecentWorkout(ofType: .legs) else { fatalError() }
@@ -118,7 +117,7 @@ extension WorkoutFactory {
     }
 }
 
-// Workout update helper
+//MARK: - Updated Workout Helper
 extension WorkoutFactory {
         static func mostRecentWorkout(ofType type: WorkoutType) -> Workout? {
         for workout in WorkoutManager.manager.pastWorkouts where workout.type == type {
@@ -129,14 +128,31 @@ extension WorkoutFactory {
     }
 }
 
-// Parse saved workouts JSON and return past workouts and current workout
+//MARK: - JSON Conversion
+
+enum Property: String {
+    case numberOfRepsCompleted = "numberOfRepsCompleted"
+    case numberOfReps = "numberOfReps"
+    case firstAttempt = "firstAttempt"
+    case name = "name"
+    case weight = "weight"
+    case sets = "sets"
+    case failCount = "failCount"
+    case type = "type"
+    case exercises = "exercises"
+    case date = "date"
+    case pastWorkouts = "pastWorkouts"
+    case currentWorkout = "currentWorkout"
+    
+}
+
 extension WorkoutFactory {
     static func workouts(from savedWorkoutsJSON: [String: Any]) -> (pastWorkouts: [Workout], currentWorkout: Workout) {
         
-        let currentWorkoutJSON = savedWorkoutsJSON["currentWorkout"] as! [String: Any]
+        let currentWorkoutJSON = savedWorkoutsJSON[Property.currentWorkout.rawValue] as! [String: Any]
         let currentWorkout = workout(from: currentWorkoutJSON)
         
-        let past = savedWorkoutsJSON["pastWorkouts"] as! [[String:Any]]
+        let past = savedWorkoutsJSON[Property.pastWorkouts.rawValue] as! [[String:Any]]
         
         var workouts = [Workout]()
         for workout in past {
@@ -148,23 +164,23 @@ extension WorkoutFactory {
     }
     
     private static func workout(from savedWorkout: [String:Any]) -> Workout {
-        let workoutType = savedWorkout["type"] as! String
-        let date = Date(timeIntervalSince1970: savedWorkout["date"] as! Double)
-        let exercises = savedWorkout["exercises"] as! [[String: Any]]
+        let workoutType = savedWorkout[Property.type.rawValue] as! String
+        let date = Date(timeIntervalSince1970: savedWorkout[Property.date.rawValue] as! Double)
+        let exercises = savedWorkout[Property.exercises.rawValue] as! [[String: Any]]
         
         var allExercises = [Exercise]()
         for exercise in exercises {
-            let name = exercise["name"] as! String
-            let weight = exercise["weight"] as! Double
-            let failCount = exercise["failCount"] as! Int
+            let name = exercise[Property.name.rawValue] as! String
+            let weight = exercise[Property.weight.rawValue] as! Double
+            let failCount = exercise[Property.failCount.rawValue] as! Int
             
-            let sets = exercise["sets"] as! [[String:Any]]
+            let sets = exercise[Property.sets.rawValue] as! [[String:Any]]
             
             var exerciseSets = [ExerciseSet]()
             for set in sets {
-                let numberOfRepsCompleted = set["numberOfRepsCompleted"] as! Int
-                let numberOfReps = set["numberOfReps"] as! Int
-                let firstAttempt = set["firstAttempt"] as! Bool
+                let numberOfRepsCompleted = set[Property.numberOfRepsCompleted.rawValue] as! Int
+                let numberOfReps = set[Property.numberOfReps.rawValue] as! Int
+                let firstAttempt = set[Property.firstAttempt.rawValue] as! Bool
                 
                 let exerciseSet = ExerciseSet(numberOfReps: numberOfReps, numberOfRepsCompleted: numberOfRepsCompleted, firstAttempt: firstAttempt)
                 exerciseSets.append(exerciseSet)

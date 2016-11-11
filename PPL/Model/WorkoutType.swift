@@ -17,11 +17,10 @@ enum WorkoutType: String, ImmutableMappable {
     case alternatePush = "Alt Push"
     
     init(map: Map) throws {
-        self = WorkoutType(rawValue: try map.value("type"))!
+        self = WorkoutType(rawValue: try map.value(Property.type.rawValue))!
     }
     
     mutating func mapping(map: Map) {
-        self.rawValue >>> map["type"]
+        self.rawValue >>> map[Property.type.rawValue]
     }
 }
-

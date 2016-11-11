@@ -38,17 +38,17 @@ extension Exercise: ImmutableMappable {
     }
     
     init(map: Map) throws {
-        name = try map.value("name")
-        weight = try map.value("weight")
-        sets = try map.value("sets")
-        failCount = try map.value("failCount")
+        name = try map.value(Property.name.rawValue)
+        weight = try map.value(Property.weight.rawValue)
+        sets = try map.value(Property.sets.rawValue)
+        failCount = try map.value(Property.failCount.rawValue)
     }
     
     mutating func mapping(map: Map) {
-        name >>> map["name"]
-        weight >>> map["weight"]
-        sets >>> map["sets"]
-        failCount >>> map["failCount"]
+        name >>> map[Property.name.rawValue]
+        weight >>> map[Property.weight.rawValue]
+        sets >>> map[Property.sets.rawValue]
+        failCount >>> map[Property.failCount.rawValue]
     }
 }
 
@@ -114,5 +114,3 @@ extension Double {
         return self.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", self) : String(self)
     }
 }
-
-

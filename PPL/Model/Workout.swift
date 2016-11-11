@@ -21,15 +21,15 @@ class Workout: ImmutableMappable {
     }
     
     required init(map: Map) throws {
-        type = WorkoutType(rawValue: try map.value("type"))!
-        exercises = try map.value("exercises")
-        date = try map.value("date")
+        type = WorkoutType(rawValue: try map.value(Property.type.rawValue))!
+        exercises = try map.value(Property.exercises.rawValue)
+        date = try map.value(Property.date.rawValue)
     }
     
     func mapping(map: Map) {
-        type.rawValue >>> map["type"]
-        exercises <- map["exercises"]
-        date >>> (map["date"], DateTransform())
+        type.rawValue >>> map[Property.type.rawValue]
+        exercises <- map[Property.exercises.rawValue]
+        date >>> (map[Property.date.rawValue], DateTransform())
     }
 }
 
@@ -50,6 +50,3 @@ extension Workout: Equatable {
         return true
     }
 }
-
-
-

@@ -21,15 +21,15 @@ struct ExerciseSet: ImmutableMappable {
     }
     
     init(map: Map) throws {
-        numberOfRepsCompleted = try map.value("numberOfRepsCompleted")
-        numberOfReps = try map.value("numberOfReps")
-        firstAttempt = try map.value("firstAttempt")
+        numberOfRepsCompleted = try map.value(Property.numberOfRepsCompleted.rawValue)
+        numberOfReps = try map.value(Property.numberOfReps.rawValue)
+        firstAttempt = try map.value(Property.firstAttempt.rawValue)
     }
     
     mutating func mapping(map: Map) {
-        numberOfRepsCompleted >>> map["numberOfRepsCompleted"]
-        numberOfReps >>> map["numberOfReps"]
-        firstAttempt >>> map["firstAttempt"]
+        numberOfRepsCompleted >>> map[Property.numberOfRepsCompleted.rawValue]
+        numberOfReps >>> map[Property.numberOfReps.rawValue]
+        firstAttempt >>> map[Property.firstAttempt.rawValue]
     }
 }
 
@@ -46,11 +46,3 @@ extension ExerciseSet: Equatable {
         return numberOfRepsCompleted >= numberOfReps
     }
 }
-
-
-
-
-
-
-
-
