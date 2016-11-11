@@ -11,7 +11,6 @@ import Foundation
 struct WorkoutFactory {
     
     static func createWorkout() -> Workout {
-        
         switch WorkoutManager.manager.pastWorkouts.count {
         case 0:
             return initialPullWorkout()
@@ -119,7 +118,7 @@ extension WorkoutFactory {
 
 //MARK: - Updated Workout Helper
 extension WorkoutFactory {
-        static func mostRecentWorkout(ofType type: WorkoutType) -> Workout? {
+    static func mostRecentWorkout(ofType type: WorkoutType) -> Workout? {
         for workout in WorkoutManager.manager.pastWorkouts where workout.type == type {
             return workout
         }

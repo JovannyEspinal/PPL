@@ -21,6 +21,7 @@ class LoggingViewController: UIViewController {
     var timer: Timer?
     var start: CFAbsoluteTime!
     var elapsedTime: Double = 0
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +35,7 @@ class LoggingViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(startTimer), name: Notification.Name("SetButtonTapped"), object: nil)
         
         let restTimerButton = UIBarButtonItem(image: UIImage(named: "Stopwatch") , style: .plain, target: self, action: #selector(showRestTimer))
+        
         self.navigationItem.rightBarButtonItem = restTimerButton
         
     }
@@ -93,7 +95,9 @@ class LoggingViewController: UIViewController {
     
     func showWCVC(sender: Notification) {
         
-        UserDefaults.standard.set(start, forKey: "startDate")
+        if timer != nil {
+            UserDefaults.standard.set(start, forKey: "startDate")
+        }
         if let weightChangeViewController = storyboard?.instantiateViewController(withIdentifier: "WeightChangeViewController") as? WeightChangeViewController, let index = sender.userInfo?["index"] as? Int {
             
             weightChangeViewController.index = index
@@ -163,7 +167,7 @@ class LoggingViewController: UIViewController {
         elapsedTime = CFAbsoluteTimeGetCurrent() - start
         
         configureTimeLabel()
-        
+
         if elapsedTime == 60 || elapsedTime == 180 || elapsedTime == 300 {
             AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
         }
