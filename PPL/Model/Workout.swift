@@ -9,7 +9,7 @@
 import Foundation
 import ObjectMapper
 
-struct Workout: ImmutableMappable {
+class Workout: ImmutableMappable {
     let type: WorkoutType
     var exercises: [Exercise]
     let date: Date
@@ -20,17 +20,16 @@ struct Workout: ImmutableMappable {
         self.date = date
     }
     
-    init(map: Map) throws {
+    required init(map: Map) throws {
         type = WorkoutType(rawValue: try map.value("type"))!
         exercises = try map.value("exercises")
         date = try map.value("date")
     }
     
-    mutating func mapping(map: Map) {
+    func mapping(map: Map) {
         type.rawValue >>> map["type"]
-        exercises >>> map["exercises"]
+        exercises <- map["exercises"]
         date >>> (map["date"], DateTransform())
-        
     }
 }
 

@@ -20,11 +20,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let workoutController = navController.viewControllers[0] as! WorkoutListViewController
         
         if let pastWorkouts = UserDefaults.standard.object(forKey: "PastWorkouts") as? [String:Any] {
-            let workouts = WorkoutManager.manager.parse(json: pastWorkouts)
-            WorkoutManager.manager.pastWorkouts = workouts
+            let workouts = WorkoutFactory.workouts(from: pastWorkouts)
+            
+            WorkoutManager.manager.pastWorkouts = workouts.pastWorkouts
+            WorkoutManager.manager.currentWorkout = workouts.currentWorkout
         }
         
-        WorkoutManager.manager.currentWorkout = WorkoutManager.manager.createWorkout()
+        WorkoutManager.manager.currentWorkout = WorkoutFactory.createWorkout()
         
         let dataProvider = WorkoutListDataProvider()
         workoutController.dataProvider = dataProvider
@@ -32,7 +34,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().barTintColor = UIColor(red: 8/255.0, green: 74/255.0, blue: 131/255.0, alpha: 1)
         UINavigationBar.appearance().tintColor = UIColor.white
         
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) {(accepted, error) in
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) {
+            (accepted, error) in
             if !accepted {
                 print("Notification access denied.")
             }
@@ -47,8 +50,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationDidEnterBackground(_ application: UIApplication) {
-        UserDefaults.standard.synchronize()
         UserDefaults.standard.removeObject(forKey: "startDate")
+        UserDefaults.standard.synchronize()
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -61,7 +64,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-        print("litttt")
     }
     
     func scheduleNotification(after seconds: TimeInterval){

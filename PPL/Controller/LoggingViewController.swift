@@ -36,16 +36,19 @@ class LoggingViewController: UIViewController {
         let restTimerButton = UIBarButtonItem(image: UIImage(named: "Stopwatch") , style: .plain, target: self, action: #selector(showRestTimer))
         self.navigationItem.rightBarButtonItem = restTimerButton
         
-        if let savedStartDate = UserDefaults.standard.object(forKey: "startDate") as? CFAbsoluteTime {
-            start = savedStartDate
-            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(calculateTime), userInfo: nil, repeats: true)
-            timerContainer.isHidden = false
-        }
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         tableView.reloadData()
+        
+        if let savedStartDate = UserDefaults.standard.object(forKey: "startDate") as? CFAbsoluteTime {
+            start = savedStartDate
+    
+            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(calculateTime), userInfo: nil, repeats: true)
+            timerContainer.isHidden = false
+        }else {
+            timerContainer.isHidden = true
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -89,6 +92,8 @@ class LoggingViewController: UIViewController {
     }
     
     func showWCVC(sender: Notification) {
+        
+        UserDefaults.standard.set(start, forKey: "startDate")
         if let weightChangeViewController = storyboard?.instantiateViewController(withIdentifier: "WeightChangeViewController") as? WeightChangeViewController, let index = sender.userInfo?["index"] as? Int {
             
             weightChangeViewController.index = index
@@ -143,6 +148,7 @@ class LoggingViewController: UIViewController {
         timer = nil
         elapsedTime = 0
         UserDefaults.standard.removeObject(forKey: "startDate")
+        UserDefaults.standard.synchronize()
         
     }
     

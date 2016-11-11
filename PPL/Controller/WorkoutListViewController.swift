@@ -20,11 +20,9 @@ class WorkoutListViewController: UIViewController, SettingsViewDelegate {
         tableView.dataSource = dataProvider
         tableView.delegate = dataProvider
         
+        setupNotifications()
+        
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(showLoggingVC), name: Notification.Name("CurrentSessionTapped"), object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(showPastWorkoutVC), name: Notification.Name("PastSessionTapped"), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -38,6 +36,31 @@ class WorkoutListViewController: UIViewController, SettingsViewDelegate {
     
     @IBAction func addWorkout(_ sender: UIBarButtonItem) {
         showLoggingVC()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let controller = segue.destination as? SettingsViewController {
+            if segue.identifier == "Settings" {
+                slideInTransitioningDelegate.direction = .left
+                
+            }
+            controller.settingsViewDelegate = self
+            controller.transitioningDelegate = slideInTransitioningDelegate
+            controller.modalPresentationStyle = .custom
+        }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+}
+
+extension WorkoutListViewController {
+    
+    func setupNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(showLoggingVC), name: Notification.Name("CurrentSessionTapped"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(showPastWorkoutVC), name: Notification.Name("PastSessionTapped"), object: nil)
     }
     
     func showLoggingVC() {
@@ -83,21 +106,5 @@ class WorkoutListViewController: UIViewController, SettingsViewDelegate {
         }
         
         tableView.reloadData()
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let controller = segue.destination as? SettingsViewController {
-            if segue.identifier == "Settings" {
-                slideInTransitioningDelegate.direction = .left
-                
-            }
-            controller.settingsViewDelegate = self
-            controller.transitioningDelegate = slideInTransitioningDelegate
-            controller.modalPresentationStyle = .custom
-        }
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
     }
 }

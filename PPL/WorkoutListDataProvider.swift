@@ -44,7 +44,6 @@ class WorkoutListDataProvider: NSObject, UITableViewDataSource, UITableViewDeleg
         
         guard let section = Section(rawValue: indexPath.section) else { fatalError() }
         
-        
         let workout: Workout
         
         switch section {

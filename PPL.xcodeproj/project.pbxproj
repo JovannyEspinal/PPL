@@ -18,6 +18,8 @@
 		3333C65F1DC3912800AF359F /* WeightChangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3333C65E1DC3912800AF359F /* WeightChangeViewController.swift */; };
 		33479F001DBA663D00E860C2 /* WorkoutListViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33479EFF1DBA663D00E860C2 /* WorkoutListViewControllerTests.swift */; };
 		33479F021DBA66AE00E860C2 /* WorkoutListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33479F011DBA66AE00E860C2 /* WorkoutListViewController.swift */; };
+		3366B2741DD53D0E005FA052 /* WorkoutFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366B2731DD53D0E005FA052 /* WorkoutFactory.swift */; };
+		3366B2761DD54DB9005FA052 /* ExerciseFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3366B2751DD54DB9005FA052 /* ExerciseFactory.swift */; };
 		338F3A9F1DC19034001689F6 /* LoggingViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338F3A9E1DC19034001689F6 /* LoggingViewControllerTests.swift */; };
 		338F3AA11DC19664001689F6 /* LoggingWorkoutDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338F3AA01DC19664001689F6 /* LoggingWorkoutDataProvider.swift */; };
 		339441FD1DCC3DE600A56D05 /* SlideinPresentationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339441FC1DCC3DE600A56D05 /* SlideinPresentationManager.swift */; };
@@ -76,6 +78,8 @@
 		3333C65E1DC3912800AF359F /* WeightChangeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeightChangeViewController.swift; path = Controller/WeightChangeViewController.swift; sourceTree = "<group>"; };
 		33479EFF1DBA663D00E860C2 /* WorkoutListViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WorkoutListViewControllerTests.swift; path = Controller/WorkoutListViewControllerTests.swift; sourceTree = "<group>"; };
 		33479F011DBA66AE00E860C2 /* WorkoutListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WorkoutListViewController.swift; path = Controller/WorkoutListViewController.swift; sourceTree = "<group>"; };
+		3366B2731DD53D0E005FA052 /* WorkoutFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WorkoutFactory.swift; path = Model/WorkoutFactory.swift; sourceTree = "<group>"; };
+		3366B2751DD54DB9005FA052 /* ExerciseFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExerciseFactory.swift; path = Model/ExerciseFactory.swift; sourceTree = "<group>"; };
 		338F3A9E1DC19034001689F6 /* LoggingViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoggingViewControllerTests.swift; path = Controller/LoggingViewControllerTests.swift; sourceTree = "<group>"; };
 		338F3AA01DC19664001689F6 /* LoggingWorkoutDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoggingWorkoutDataProvider.swift; path = Controller/LoggingWorkoutDataProvider.swift; sourceTree = "<group>"; };
 		339441FC1DCC3DE600A56D05 /* SlideinPresentationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SlideinPresentationManager.swift; path = Presentation/SlideinPresentationManager.swift; sourceTree = "<group>"; };
@@ -253,6 +257,8 @@
 				33F4B43B1DB9063C00B76013 /* Exercise.swift */,
 				33F4B4411DB908EC00B76013 /* WorkoutType.swift */,
 				33F4B4451DB909F900B76013 /* Workout.swift */,
+				3366B2751DD54DB9005FA052 /* ExerciseFactory.swift */,
+				3366B2731DD53D0E005FA052 /* WorkoutFactory.swift */,
 				33F4EEDF1DB9183D00B0BFC8 /* WorkoutManager.swift */,
 				33123EB71DC03D9400E1427E /* Date + StringDate.swift */,
 			);
@@ -504,12 +510,14 @@
 				330D2FA91DCC0D7A00946E44 /* SettingsViewController.swift in Sources */,
 				33479F021DBA66AE00E860C2 /* WorkoutListViewController.swift in Sources */,
 				33BC00FE1DBAAE9200A01242 /* Lens + Workout.swift in Sources */,
+				3366B2761DD54DB9005FA052 /* ExerciseFactory.swift in Sources */,
 				3333C65D1DC26F5300AF359F /* RoundButton.swift in Sources */,
 				338F3AA11DC19664001689F6 /* LoggingWorkoutDataProvider.swift in Sources */,
 				33F4B4381DB9048D00B76013 /* ExerciseSet.swift in Sources */,
 				339442071DCC4A2D00A56D05 /* PastWorkoutCell.swift in Sources */,
 				33F4EEE01DB9183D00B0BFC8 /* WorkoutManager.swift in Sources */,
 				339442051DCC474D00A56D05 /* WorkoutDataProvider.swift in Sources */,
+				3366B2741DD53D0E005FA052 /* WorkoutFactory.swift in Sources */,
 				33F4EEE41DB9217000B0BFC8 /* ExerciseNames.swift in Sources */,
 				33BC00F91DBA988F00A01242 /* Lens + ExerciseSet.swift in Sources */,
 				33F4B43C1DB9063C00B76013 /* Exercise.swift in Sources */,
