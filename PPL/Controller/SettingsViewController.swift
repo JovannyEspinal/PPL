@@ -13,7 +13,7 @@ protocol SettingsViewDelegate {
     func switchWeightFormat()
 }
 
-class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class SettingsViewController: UIViewController, UITableViewDataSource {
     @IBOutlet weak var switchMetricCell: UITableViewCell!
     @IBOutlet weak var tableView: UITableView!
     var settingsViewDelegate: SettingsViewDelegate?
@@ -58,6 +58,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         return cell
     }
     
+}
+
+extension SettingsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
@@ -76,5 +79,4 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         
         tableView.deselectRow(at: indexPath, animated: false)
     }
-    
 }

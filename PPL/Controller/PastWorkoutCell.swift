@@ -32,8 +32,7 @@ class PastWorkoutCell: UITableViewCell {
         
         setxWeightButton.setTitle(exercise.setxWeightDescription, for: .normal)
         
-        if let setCount = setCount{
-            
+        if let setCount = setCount {
             for i in 0..<5-setCount {
                 sets[5-i-1].disable()
             }

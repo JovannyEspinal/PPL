@@ -134,7 +134,7 @@ extension ExerciseFactory {
                 
                 if adjustedExercise.failCount == 3 {
                     let deloadAmount = adjustedExercise.weight * 0.1
-                    let newWeightTotal = round(((pastExercise.weight - deloadAmount) / 2.5)) * 2.5
+                    let newWeightTotal = Round.roundRegular(number: pastExercise.weight - deloadAmount, toNearest: 0.25)
                     let deloadedExercise = (adjustedExercise |> Exercise.weightLens *~ newWeightTotal) |> Exercise.failCountLens *~ 0
                     updatedExercise = deloadedExercise
                 } else {

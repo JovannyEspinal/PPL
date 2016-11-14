@@ -8,8 +8,7 @@
 
 import UIKit
 
-class WorkoutListViewController: UIViewController, SettingsViewDelegate {
-    
+class WorkoutListViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     var dataProvider: WorkoutListDataProvider!
     lazy var slideInTransitioningDelegate = SlideinPresentationManager()
@@ -56,7 +55,6 @@ class WorkoutListViewController: UIViewController, SettingsViewDelegate {
 }
 
 extension WorkoutListViewController {
-    
     func setupNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(showLoggingVC), name: Notification.Name("CurrentSessionTapped"), object: nil)
         
@@ -77,9 +75,14 @@ extension WorkoutListViewController {
             dataProvider.index = senderIndex
             workoutVC.dataProvider = dataProvider
             workoutVC.date = dateString
+            
             navigationController?.pushViewController(workoutVC, animated: true)
         }
     }
+}
+
+//MARK: - SettingsViewDelegate Methods
+extension WorkoutListViewController: SettingsViewDelegate {
     
     func clearWorkoutHistory() {
         let alertController = UIAlertController(title: "Clear Workout History", message: "Are you sure you want to clear your workout history? Everything will be reset to default settings.", preferredStyle: .alert)

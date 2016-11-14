@@ -11,16 +11,20 @@ import ObjectMapper
 
 struct Exercise {
     let name: String
-    let weight: Double
+    var weight: Double
     var sets: [ExerciseSet]
     let failCount: Int
 }
 
 extension Exercise {
     var kgWeight: Double {
-        return round((10.0*(weight * 0.45359237))) / 10.0
+        if weight == 45 {
+            return 20
+        }
+        return Round.roundRegular(number: weight * 0.45359237, toNearest: 2.5)
     }
 }
+
 extension Exercise: ImmutableMappable {
     init(name: String, weight: Double, numberOfSets: Int, numberOfReps: Int, failCount: Int = 0) {
         self.name = name
@@ -35,6 +39,7 @@ extension Exercise: ImmutableMappable {
         self.sets = tempSets
         
         self.failCount = failCount
+        
     }
     
     init(map: Map) throws {

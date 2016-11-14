@@ -8,6 +8,23 @@
 
 import Foundation
 
+enum Property: String {
+    case numberOfRepsCompleted = "numberOfRepsCompleted"
+    case numberOfReps = "numberOfReps"
+    case firstAttempt = "firstAttempt"
+    case name = "name"
+    case weight = "weight"
+    case kgWeight = "kgWeight"
+    case sets = "sets"
+    case failCount = "failCount"
+    case type = "type"
+    case exercises = "exercises"
+    case date = "date"
+    case pastWorkouts = "pastWorkouts"
+    case currentWorkout = "currentWorkout"
+    
+}
+
 struct WorkoutFactory {
     
     static func createWorkout() -> Workout {
@@ -128,23 +145,6 @@ extension WorkoutFactory {
 }
 
 //MARK: - JSON Conversion
-
-enum Property: String {
-    case numberOfRepsCompleted = "numberOfRepsCompleted"
-    case numberOfReps = "numberOfReps"
-    case firstAttempt = "firstAttempt"
-    case name = "name"
-    case weight = "weight"
-    case sets = "sets"
-    case failCount = "failCount"
-    case type = "type"
-    case exercises = "exercises"
-    case date = "date"
-    case pastWorkouts = "pastWorkouts"
-    case currentWorkout = "currentWorkout"
-    
-}
-
 extension WorkoutFactory {
     static func workouts(from savedWorkoutsJSON: [String: Any]) -> (pastWorkouts: [Workout], currentWorkout: Workout) {
         

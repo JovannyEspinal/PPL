@@ -24,7 +24,7 @@ class WorkoutViewController: UIViewController {
         if let dateString = date {
             title = dateString
         }
-        // Do any additional setup after loading the view.
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -32,11 +32,6 @@ class WorkoutViewController: UIViewController {
         
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }

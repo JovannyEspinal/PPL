@@ -77,10 +77,10 @@ class LoggingViewController: UIViewController {
             
             if let _ = UserDefaults.standard.object(forKey: "PastWorkouts") as? [String: Any] {
                 UserDefaults.standard.removeObject(forKey: "PastWorkouts")
-                UserDefaults.standard.set(json, forKey: "PastWorkouts")
-            } else {
-                UserDefaults.standard.set(json, forKey: "PastWorkouts")
             }
+            
+            UserDefaults.standard.set(json, forKey: "PastWorkouts")
+
             
             DispatchQueue.main.async {
                 _ = self.navigationController?.popViewController(animated: true)
@@ -151,6 +151,7 @@ class LoggingViewController: UIViewController {
         timer!.invalidate()
         timer = nil
         elapsedTime = 0
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         UserDefaults.standard.removeObject(forKey: "startDate")
         UserDefaults.standard.synchronize()
         

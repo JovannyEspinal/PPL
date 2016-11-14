@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WorkoutListDataProvider: NSObject, UITableViewDataSource, UITableViewDelegate {
+class WorkoutListDataProvider: NSObject, UITableViewDataSource {
     let workoutManager = WorkoutManager.manager
     
     enum Section: Int {
@@ -16,6 +16,7 @@ class WorkoutListDataProvider: NSObject, UITableViewDataSource, UITableViewDeleg
         case pastSessions
     }
     
+    //MARK: - UITableViewDataSource Methods
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
@@ -73,7 +74,10 @@ class WorkoutListDataProvider: NSObject, UITableViewDataSource, UITableViewDeleg
         
         return headerTitle
     }
-    
+}
+
+//MARK: - UITableViewDelegate Methods
+extension WorkoutListDataProvider: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             NotificationCenter.default.post(name: Notification.Name("CurrentSessionTapped"), object: nil)

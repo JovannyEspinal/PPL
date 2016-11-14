@@ -35,7 +35,7 @@ class LoggingWorkoutDataProviderTests: XCTestCase {
     }
     
     func testCurrentWorkout_ShouldBeNotNil() {
-        XCTAssertNotNil(sut.workoutManager.currentWorkout)
+        XCTAssertNotNil(sut.currentWorkout)
     }
     
     func testNumberOfSections_isOne() {
@@ -46,9 +46,9 @@ class LoggingWorkoutDataProviderTests: XCTestCase {
     
     func testNumberOfRowsInFirstSection_ShouldBeNumberOfExercises() {
         
-        let numberOfExercises = sut.workoutManager.currentWorkout?.exercises.count
+        let numberOfExercises = sut.currentWorkout.exercises.count
         
-        XCTAssertEqual(tableView.numberOfRows(inSection: 0), numberOfExercises!)
+        XCTAssertEqual(tableView.numberOfRows(inSection: 0), numberOfExercises)
     }
     
     func testCell_ReturnsExercise() {
