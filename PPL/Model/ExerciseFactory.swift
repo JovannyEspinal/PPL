@@ -110,19 +110,23 @@ extension ExerciseFactory {
         var updatedExercises = [Exercise]()
         
         for pastExercise in workout.exercises {
+            let compoundExercises = [ExerciseNames.deadlift,
+                                     ExerciseNames.barbellRow,
+                                     ExerciseNames.benchPress,
+                                     ExerciseNames.overheadPress,
+                                     ExerciseNames.squat]
             let updatedExercise: Exercise
             var adjustedExercise: Exercise
-            let compoundExercises = [ExerciseNames.deadlift, ExerciseNames.barbellRow, ExerciseNames.benchPress, ExerciseNames.overheadPress, ExerciseNames.squat]
             var incrementAmount: Double
-            let maximumSets: Int
-            let minimumSets: Int
+            let maximumReps: Int
+            let minimumReps: Int
             
             if pastExercise.name == ExerciseNames.facePull || pastExercise.name == ExerciseNames.lateralRaise || pastExercise.name == ExerciseNames.calfRaise {
-                maximumSets = 20
-                minimumSets = 16
+                maximumReps = 20
+                minimumReps = 16
             } else {
-                maximumSets = 12
-                minimumSets = 8
+                maximumReps = 12
+                minimumReps = 8
             }
             
             if pastExercise.hasCompletedAllSets() {
@@ -140,8 +144,8 @@ extension ExerciseFactory {
                 if let firstExercise = workout.exercises.first?.name, firstExercise != pastExercise.name {
                     for set in pastExercise.sets {
                         
-                        if set.numberOfReps == maximumSets {
-                            let updatedSet = set |> ExerciseSet.numberOfRepsLens *~ minimumSets
+                        if set.numberOfReps == maximumReps {
+                            let updatedSet = set |> ExerciseSet.numberOfRepsLens *~ minimumReps
                             updatedSets.append(updatedSet)
                         } else {
                             let updatedSet = set |> ExerciseSet.numberOfRepsLens *~ (set.numberOfReps + 1)
@@ -165,10 +169,33 @@ extension ExerciseFactory {
                 let adjustedExercise = pastExercise |> Exercise.failCountLens *~ (pastExercise.failCount + 1)
                 
                 if adjustedExercise.failCount == 3 {
-                    let deloadAmount = adjustedExercise.weight * 0.1
-                    let newWeightTotal = Round.roundRegular(number: pastExercise.weight - deloadAmount, toNearest: 0.25)
-                    let deloadedExercise = (adjustedExercise |> Exercise.weightLens *~ newWeightTotal) |> Exercise.failCountLens *~ 0
-                    updatedExercise = deloadedExercise
+                    let deloadedExercise: Exercise
+                    
+                    if let firstExercise = workout.exercises.first?.name, firstExercise == pastExercise.name {
+                        let deloadAmount = adjustedExercise.weight * 0.1
+                        let newWeightTotal = Round.roundRegular(number: pastExercise.weight - deloadAmount, toNearest: 5.0)
+                        deloadedExercise = (adjustedExercise |> Exercise.weightLens *~ newWeightTotal)
+                    } else {
+                        var updatedSets = [ExerciseSet]()
+                        var deloadAmount: Double = 0
+                        
+                        for set in adjustedExercise.sets {
+                            var updatedSet = set |> ExerciseSet.numberOfRepsLens *~ (set.numberOfReps - 1)
+                            
+                            if set.numberOfReps < minimumReps {
+                                deloadAmount = adjustedExercise.weight - 2.5
+                                updatedSet = (set |> ExerciseSet.numberOfRepsLens *~ maximumReps)
+                            }
+                            
+                            updatedSets.append(updatedSet)
+                        }
+                        
+                        deloadedExercise = ((adjustedExercise |> Exercise.setsLens *~ updatedSets)
+                            |> Exercise.weightLens *~ (adjustedExercise.weight - deloadAmount))
+                    }
+                    
+                    
+                    updatedExercise = (deloadedExercise |> Exercise.failCountLens *~ 0)
                 } else {
                     updatedExercise = adjustedExercise
                 }
