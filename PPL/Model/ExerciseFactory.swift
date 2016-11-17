@@ -79,7 +79,7 @@ struct ExerciseFactory {
 
 //MARK: Updated Exercises Creation
 extension ExerciseFactory {
-   static func pushExercises(withAccessoriesFrom workout: Workout,
+    static func pushExercises(withAccessoriesFrom workout: Workout,
                               andCompoundsFrom lastWorkout: Workout) -> [Exercise] {
         let updatedExercisesLastWorkout = updatedExercises(from: lastWorkout)
         
@@ -111,11 +111,21 @@ extension ExerciseFactory {
         
         for pastExercise in workout.exercises {
             let updatedExercise: Exercise
+            var adjustedExercise: Exercise
             let compoundExercises = [ExerciseNames.deadlift, ExerciseNames.barbellRow, ExerciseNames.benchPress, ExerciseNames.overheadPress, ExerciseNames.squat]
+            var incrementAmount: Double
+            let maximumSets: Int
+            let minimumSets: Int
+            
+            if pastExercise.name == ExerciseNames.facePull || pastExercise.name == ExerciseNames.lateralRaise || pastExercise.name == ExerciseNames.calfRaise {
+                maximumSets = 20
+                minimumSets = 16
+            } else {
+                maximumSets = 12
+                minimumSets = 8
+            }
             
             if pastExercise.hasCompletedAllSets() {
-                let incrementAmount: Double
-                
                 if compoundExercises.contains(pastExercise.name) {
                     if pastExercise.name == ExerciseNames.deadlift {
                         incrementAmount = 10.0
@@ -126,7 +136,29 @@ extension ExerciseFactory {
                     incrementAmount = 2.5
                 }
                 
-                let adjustedExercise = (pastExercise |> Exercise.weightLens *~ (pastExercise.weight + incrementAmount)) |> Exercise.failCountLens *~ 0
+                var updatedSets = [ExerciseSet]()
+                if let firstExercise = workout.exercises.first?.name, firstExercise != pastExercise.name {
+                    for set in pastExercise.sets {
+                        
+                        if set.numberOfReps == maximumSets {
+                            let updatedSet = set |> ExerciseSet.numberOfRepsLens *~ minimumSets
+                            updatedSets.append(updatedSet)
+                        } else {
+                            let updatedSet = set |> ExerciseSet.numberOfRepsLens *~ (set.numberOfReps + 1)
+                            incrementAmount = 0
+                            updatedSets.append(updatedSet)
+                        }
+                    }
+                    
+                    adjustedExercise = (pastExercise |> Exercise.weightLens *~ (pastExercise.weight + incrementAmount)
+                        |> Exercise.failCountLens *~ 0
+                        |> Exercise.setsLens *~ updatedSets)
+                    
+                } else {
+                    adjustedExercise = (pastExercise |> Exercise.weightLens *~ (pastExercise.weight + incrementAmount)
+                        |> Exercise.failCountLens *~ 0)
+                    
+                }
                 
                 updatedExercise = adjustedExercise
             } else {
