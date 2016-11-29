@@ -168,14 +168,19 @@ class LoggingViewController: UIViewController {
         elapsedTime = CFAbsoluteTimeGetCurrent() - start
         
         configureTimeLabel()
-
-        if elapsedTime == 60 || elapsedTime == 180 || elapsedTime == 300 {
-            AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
-        }
         
-        if elapsedTime == 300 {
-            timer!.invalidate()
-            closeTimer()
+        let oneMinuteMark = elapsedTime >= 60 && elapsedTime <= 180
+        let threeMinuteMark = elapsedTime >= 180 && elapsedTime <= 300
+        let fiveMinuteMark = elapsedTime > 300
+
+        if fiveMinuteMark {
+            timerContainer.backgroundColor = UIColor.red
+            timerLabel.textColor = UIColor.white
+        }
+        else if oneMinuteMark || threeMinuteMark {
+            timerContainer.backgroundColor = UIColor(red:0.10, green:0.78, blue:0.29, alpha:1.0)
+            timerDescriptionLabel.textColor = UIColor.white
+            timerLabel.textColor = UIColor.white
         }
     }
     
